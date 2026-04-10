@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The CRM Spot-the-Flaw Challenge | Proximo Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f8f7f5;
+    --surface: #ffffff;
+    --surface2: #f2f0ec;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.18);
+    --text: #1a1916;
+    --text2: #5a5854;
+    --text3: #9a9894;
+    --purple: #534AB7;
+    --purple-light: #EEEDFE;
+    --purple-dark: #26215C;
+    --purple-mid: #AFA9EC;
+    --teal: #1D9E75;
+    --teal-light: #E1F5EE;
+    --teal-dark: #085041;
+    --teal-mid: #5DCAA5;
+    --amber: #BA7517;
+    --amber-light: #FAEEDA;
+    --amber-dark: #412402;
+    --coral: #D85A30;
+    --coral-light: #FAECE7;
+    --coral-dark: #4A1B0C;
+    --red: #A32D2D;
+    --red-light: #FCEBEB;
+    --radius: 10px;
+    --radius-lg: 14px;
+  }
+
+  html { font-size: 16px; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* LAYOUT */
+  .page-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 1.25rem 4rem;
+  }
+
+  /* TOP BAR */
+  .topbar {
+    background: var(--purple-dark);
+    padding: 10px 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0;
+  }
+  .topbar-brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .topbar-tag {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 400;
+  }
+
+  /* SCREENS */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* HERO */
+  .hero {
+    background: var(--purple-dark);
+    padding: 2.5rem 1.5rem 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.8);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    border: 0.5px solid rgba(255,255,255,0.2);
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .hero p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .card-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 8px;
+  }
+
+  /* FORM ELEMENTS */
+  input[type="text"] {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  input[type="text"]:focus { border-color: var(--purple); }
+  input[type="text"]::placeholder { color: var(--text3); }
+
+  .code-input {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-align: center;
+    text-transform: uppercase;
+    width: 140px;
+  }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.15s;
+    border: none;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--purple);
+    color: white;
+  }
+  .btn-primary:hover { background: #453ea0; }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text2);
+    border: 1px solid var(--border2);
+  }
+  .btn-ghost:hover { background: var(--surface2); }
+
+  .row { display: flex; gap: 8px; align-items: flex-start; }
+  .row input { flex: 1; }
+
+  /* DIVIDER */
+  .divider {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text3);
+    margin: 1rem 0;
+    position: relative;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: calc(50% - 60px);
+    height: 0.5px;
+    background: var(--border);
+  }
+  .divider::before { left: 0; }
+  .divider::after { right: 0; }
+
+  /* PLAYER PILLS */
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--text);
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .pill-host {
+    font-size: 10px;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    padding: 1px 7px;
+    border-radius: 10px;
+  }
+
+  /* ROOM CODE DISPLAY */
+  .room-code {
+    font-family: 'Syne', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    color: var(--purple);
+    text-align: center;
+    padding: 12px 0 4px;
+  }
+  .room-code-hint { text-align: center; font-size: 12px; color: var(--text3); margin-bottom: 12px; }
+
+  /* ERROR */
+  .err { font-size: 12px; color: var(--coral); min-height: 18px; margin-top: 4px; }
+
+  /* GAME HEADER */
+  .game-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0 0.75rem;
+  }
+  .round-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text2);
+  }
+  .pts-badge {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--purple);
+    background: var(--purple-light);
+    padding: 4px 14px;
+    border-radius: 20px;
+  }
+
+  /* PROGRESS */
+  .progress {
+    height: 4px;
+    background: var(--surface2);
+    border-radius: 2px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--purple);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  /* LIVE SCORES BAR */
+  .scores-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
+  .score-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+  }
+  .score-chip.leading { background: var(--teal-light); border-color: var(--teal-mid); }
+  .score-name { font-weight: 500; color: var(--text); }
+  .score-pts { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--purple); }
+  .score-chip.leading .score-pts { color: var(--teal-dark); }
+
+  /* NOTE CARD */
+  .note-card {
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  .note-type {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 8px;
+  }
+  .note-body {
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: var(--text);
+    white-space: pre-wrap;
+    font-style: italic;
+  }
+
+  /* FAILURES GRID */
+  .q-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text2);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .q-tag {
+    font-size: 10px;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  .failures-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 1.25rem;
+  }
+  @media (max-width: 500px) { .failures-grid { grid-template-columns: 1fr; } }
+
+  .failure-opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 9px 11px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    background: var(--surface);
+    transition: all 0.1s;
+    user-select: none;
+  }
+  .failure-opt:hover { border-color: var(--border2); background: var(--surface2); }
+  .failure-opt.selected { border-color: var(--purple); background: var(--purple-light); }
+  .failure-opt.correct { border-color: var(--teal); background: var(--teal-light); }
+  .failure-opt.wrong { border-color: var(--coral); background: var(--coral-light); }
+
+  .fo-box {
+    width: 17px;
+    height: 17px;
+    border: 1.5px solid #ccc;
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.1s;
+  }
+  .failure-opt.selected .fo-box { background: var(--purple); border-color: var(--purple); }
+  .failure-opt.correct .fo-box { background: var(--teal); border-color: var(--teal); }
+  .failure-opt.wrong .fo-box { background: var(--coral); border-color: var(--coral); }
+  .fo-tick { display: none; }
+  .failure-opt.selected .fo-tick,
+  .failure-opt.correct .fo-tick,
+  .failure-opt.wrong .fo-tick { display: block; }
+  .fo-text { font-size: 12px; line-height: 1.45; color: var(--text); }
+
+  /* REWRITE */
+  .rewrite-section { margin-bottom: 1.25rem; }
+  textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 10px 12px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    resize: vertical;
+    line-height: 1.6;
+    outline: none;
+  }
+  textarea:focus { border-color: var(--purple); }
+  .rewrite-hint { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+  /* SUBMIT ROW */
+  .submit-row { display: flex; align-items: center; gap: 12px; }
+  .timer {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    min-width: 40px;
+    color: var(--text2);
+  }
+  .timer.urgent { color: var(--coral); }
+  .submit-status { font-size: 12px; color: var(--text3); }
+
+  /* RESULT */
+  .result-banner {
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .result-banner.correct { background: var(--teal-light); border: 0.5px solid var(--teal-mid); }
+  .result-banner.partial { background: var(--amber-light); border: 0.5px solid #EF9F27; }
+  .result-banner.wrong { background: var(--coral-light); border: 0.5px solid #F0997B; }
+  .rb-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+  .rb-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+  .result-banner.correct .rb-title { color: var(--teal-dark); }
+  .result-banner.partial .rb-title { color: var(--amber-dark); }
+  .result-banner.wrong .rb-title { color: var(--coral-dark); }
+  .rb-body { font-size: 13px; line-height: 1.5; }
+  .result-banner.correct .rb-body { color: #0F6E56; }
+  .result-banner.partial .rb-body { color: var(--amber); }
+  .result-banner.wrong .rb-body { color: var(--coral); }
+
+  /* FAILURE EXPLANATIONS */
+  .fe-list { margin-bottom: 1.25rem; }
+  .fe-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
+  .fe-tag {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 9px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .fe-tag.caught { background: var(--teal-light); color: var(--teal-dark); }
+  .fe-tag.missed { background: var(--amber-light); color: var(--amber-dark); }
+  .fe-text { font-size: 12.5px; color: var(--text2); line-height: 1.55; }
+
+  /* MODEL ANSWER */
+  .model-card {
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+  }
+  .model-header {
+    background: var(--surface2);
+    padding: 8px 1rem;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text3);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .model-body {
+    padding: 1rem;
+    font-size: 12.5px;
+    line-height: 1.75;
+    color: var(--text);
+    white-space: pre-wrap;
+    background: var(--surface);
+  }
+
+  .next-row { display: flex; justify-content: flex-end; margin-top: 1rem; }
+
+  /* WAITING */
+  .waiting-center { text-align: center; padding: 3rem 1rem; }
+  .waiting-center h2 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .waiting-center p { font-size: 13px; color: var(--text2); margin-bottom: 1.5rem; }
+
+  /* LEADERBOARD */
+  .lb-hero { text-align: center; padding: 2rem 0 1.5rem; }
+  .lb-hero h2 { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+  .lb-hero p { font-size: 13px; color: var(--text2); }
+  .lb-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 1.25rem;
+    border-radius: var(--radius-lg);
+    margin-bottom: 8px;
+    border: 0.5px solid var(--border);
+    background: var(--surface);
+  }
+  .lb-row.first { background: var(--purple-light); border-color: var(--purple-mid); }
+  .lb-rank { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; width: 32px; text-align: center; color: var(--text2); }
+  .lb-row.first .lb-rank { color: var(--purple-dark); }
+  .lb-name { flex: 1; font-size: 15px; font-weight: 500; }
+  .lb-pts { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--purple); }
+  .lb-row.first .lb-pts { color: var(--purple-dark); }
+  .lb-winner-note { text-align: center; font-size: 13px; color: var(--text3); margin-top: 1.25rem; font-style: italic; }
+  .lb-replay { text-align: center; margin-top: 1.5rem; }
+
+  /* START HINT */
+  .start-hint { font-size: 12px; color: var(--text3); text-align: center; margin-top: 6px; }
+  .start-row { text-align: center; margin-top: 1rem; }
+
+  /* SECTION DIVIDER */
+  .section-sep { height: 0.5px; background: var(--border); margin: 1.25rem 0; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-brand">Proximo Capital</span>
+  <span class="topbar-tag">CRM Training</span>
+</div>
+
+<!-- LOBBY -->
+<div id="screen-lobby" class="screen active">
+  <div class="hero">
+    <div class="hero-badge">Banker Boot Camp</div>
+    <h1>The CRM<br>Spot-the-Flaw Challenge</h1>
+    <p>Real notes. Real mistakes. First to catch all the failures on 4 of 5 rounds wins.</p>
+  </div>
+
+  <div class="page-wrap">
+    <div class="card">
+      <div class="card-label">Host — Create a room</div>
+      <div class="row">
+        <input type="text" id="host-name" placeholder="Your name" maxlength="20"/>
+        <button class="btn btn-primary" onclick="createRoom()">Create Room</button>
+      </div>
+      <div id="host-err" class="err"></div>
+
+      <div id="room-created" style="display:none">
+        <div class="section-sep"></div>
+        <div class="card-label" style="text-align:center">Share this code with players</div>
+        <div class="room-code" id="room-code-display">----</div>
+        <div class="room-code-hint">Others join using this code below</div>
+        <div class="card-label">Players in room</div>
+        <div class="pills" id="pills-container"></div>
+        <div class="start-hint" id="start-hint" style="margin-top:10px"></div>
+        <div class="start-row">
+          <button class="btn btn-primary" id="start-btn" onclick="startGame()" disabled>Start Game</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">or join an existing room</div>
+
+    <div class="card">
+      <div class="card-label">Join a room</div>
+      <div class="row" style="margin-bottom:8px">
+        <input type="text" id="join-name" placeholder="Your name" maxlength="20"/>
+      </div>
+      <div class="row">
+        <input type="text" class="code-input" id="join-code" placeholder="CODE" maxlength="4"/>
+        <button class="btn btn-primary" onclick="joinRoom()">Join Room</button>
+      </div>
+      <div id="join-err" class="err"></div>
+    </div>
+  </div>
+</div>
+
+<!-- WAITING -->
+<div id="screen-waiting" class="screen">
+  <div class="page-wrap">
+    <div class="waiting-center">
+      <h2>You're in!</h2>
+      <p>Waiting for the host to start the game...</p>
+      <div class="card-label">Players in room</div>
+      <div class="pills" id="waiting-pills"></div>
+    </div>
+  </div>
+</div>
+
+<!-- GAME -->
+<div id="screen-game" class="screen">
+  <div class="page-wrap">
+    <div class="game-top">
+      <div class="round-label" id="round-label">Round 1 of 5</div>
+      <div class="pts-badge" id="my-pts-header">0 pts</div>
+    </div>
+    <div class="progress"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="scores-bar" id="live-scores-bar"></div>
+
+    <div class="note-card">
+      <div class="note-type" id="note-type-label">Call Note</div>
+      <div class="note-body" id="note-body-text"></div>
+    </div>
+
+    <div class="q-label">What's wrong with this? <span class="q-tag">Select all that apply</span></div>
+    <div class="failures-grid" id="failure-options"></div>
+
+    <div class="rewrite-section">
+      <div class="q-label">Rewrite the fix in one sentence <span class="q-tag">Optional +1 pt</span></div>
+      <textarea id="rewrite-input" placeholder="Write a corrected version or just the key fix..."></textarea>
+      <div class="rewrite-hint">Doesn't need to be perfect. Show you understand the standard.</div>
+    </div>
+
+    <div class="submit-row">
+      <div class="timer" id="timer-display">90</div>
+      <button class="btn btn-primary" id="submit-btn" onclick="submitAnswer()">Submit</button>
+      <div class="submit-status" id="submit-status"></div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="screen-result" class="screen">
+  <div class="page-wrap">
+    <div class="game-top">
+      <div class="round-label" id="result-round-label">Round 1 of 5 Result</div>
+      <div class="pts-badge" id="result-pts-display">+0 pts</div>
+    </div>
+
+    <div id="result-banner-container"></div>
+    <div class="fe-list" id="failure-explanations"></div>
+
+    <div class="model-card">
+      <div class="model-header">Model Answer</div>
+      <div class="model-body" id="model-answer-text"></div>
+    </div>
+
+    <div class="scores-bar" id="result-scores-bar"></div>
+    <div class="next-row">
+      <button class="btn btn-primary" id="next-round-btn" onclick="nextRound()" style="display:none">Next Round</button>
+    </div>
+  </div>
+</div>
+
+<!-- END -->
+<div id="screen-end" class="screen">
+  <div class="page-wrap">
+    <div class="lb-hero">
+      <h2>Final Standings</h2>
+      <p id="end-sub"></p>
+    </div>
+    <div id="final-lb"></div>
+    <div class="lb-winner-note" id="winner-note"></div>
+    <div class="lb-replay"><button class="btn btn-ghost" onclick="resetGame()">Play Again</button></div>
+  </div>
+</div>
+
+<script>
+const ROUNDS = [
+  {
+    type: "Call Note",
+    note: `Per James, he's been back and forth with Dave Givey to see if this is real.`,
+    failures: [
+      { id: "ghost", label: "Ghost Note — no structure or substance" },
+      { id: "nodate", label: "No date or timestamp" },
+      { id: "nopart", label: "No participant names or titles" },
+      { id: "nodeal", label: "No deal context or so-what" },
+      { id: "nonext", label: "No next step or owner" },
+      { id: "hedged", label: "Hedged flag — deal health not assessed" },
+    ],
+    correct: ["ghost","nodate","nopart","nodeal","nonext","hedged"],
+    failureNotes: {
+      ghost: "One vague sentence with no structure is a Ghost Note — no usable information for a pipeline review or handoff.",
+      nodate: "No date means the activity timeline is broken. Was this today? Last week? The CRM can't flag untouched deal violations without it.",
+      nopart: "We know 'James' and 'Dave Givey' but have no titles, no company for Dave, and no role context. Relationship mapping is impossible.",
+      nodeal: "What deal is this? What does 'is this real' mean? What stage is it in? Zero context for anyone reading cold.",
+      nonext: "No next step, no owner, no deadline. What happens if Dave doesn't respond? There's no escalation path here.",
+      hedged: "'To see if this is real' is a Deal Health Flag waiting to be written. Instead it's buried in a passive sentence with no consequence."
+    },
+    model: `Date: Thursday, April 09 2026 — 2:00 PM ET
+Participants: [Rep Name] (Proximo Capital); James [Last Name], [Title]
+Summary: Internal update. Deal viability unconfirmed after multiple touchpoints with Dave Givey. Flagged to rep to obtain definitive confirmation before end of week.
+
+Key Discussion Points:
+- Multiple exchanges between James and Dave Givey attempting to confirm whether this opportunity is live
+- No commitment received; deal reality and timeline unconfirmed as of today
+
+Commitments Made:
+Rep: Obtain clear yes/no from Dave Givey on deal status — Due: Mon Apr 13
+
+Next Steps:
+1. James: Confirm deal status with Dave Givey — Due: Mon Apr 13
+2. If no response by Apr 13, move to Disengaging
+
+Deal Health Flag: Deal viability unconfirmed after multiple attempts. If client cannot confirm by Apr 13, recommend disengaging to keep pipeline clean.`
+  },
+  {
+    type: "Task",
+    note: `Title: "Text client for LOI's"\nBody: Need more info from client.\nDue: Oct 5, 2026\nType: To-Do\nAssociated contact/company: [none]`,
+    failures: [
+      { id: "nocompany", label: "No company name in the title" },
+      { id: "vague", label: "Vague action — doesn't say what for" },
+      { id: "noformat", label: "Title doesn't follow [Company / Action / MM/DD] format" },
+      { id: "noassoc", label: "Not associated with a deal or contact" },
+      { id: "tbody", label: "Task body adds no useful context" },
+      { id: "wrongtype", label: "Task type is To-Do but action is a call/text" },
+    ],
+    correct: ["nocompany","vague","noformat","noassoc","tbody","wrongtype"],
+    failureNotes: {
+      nocompany: "Without a company name in the title, this task is invisible in a filtered task list or pipeline review. Company first, always.",
+      vague: "'Text client' tells you nothing about what to ask, which client, or what outcome you're driving toward.",
+      noformat: "The correct format is [Company] — [verb + specific thing] — MM/DD. This task has none of those three components in order.",
+      noassoc: "A task with no associated deal or contact is an orphan. It won't appear on the deal record and can't be tracked in pipeline health.",
+      tbody: "'Need more info from client' restates the obvious. A good task body says what to ask, what to do if there's no response, and who to escalate to.",
+      wrongtype: "The type drives how it appears in task views. Setting it as To-Do when the action is a call/text creates a gap in the communication log."
+    },
+    model: `Title: [Company Name] — Follow up on outstanding LOIs — 10/05
+Type: Call
+Due: 10/05/2026
+Associated: [Deal record] + [Contact: client name]
+Body: Client has not yet returned signed LOIs. Confirm receipt and get ETA. If not received by 10/07, escalate to [Manager Name] and flag in deal Stuck Detail.`
+  },
+  {
+    type: "Call Note",
+    note: `4/8\n- ROK - requested last 4 month bank statements\n- Fora - requested YTD financials\n- have call with Ken later today`,
+    failures: [
+      { id: "ghost", label: "Ghost Note — no structure or context" },
+      { id: "nopart", label: "No participant names or titles" },
+      { id: "nodeal", label: "Multiple deals mixed into one note" },
+      { id: "nosowhat", label: "No so-what for either deal" },
+      { id: "nonext", label: "No next steps with owners and due dates" },
+      { id: "nocommit", label: "No client commitments or delivery dates logged" },
+    ],
+    correct: ["ghost","nopart","nodeal","nosowhat","nonext","nocommit"],
+    failureNotes: {
+      ghost: "Three bullet points with no summary, no date context, no participants. Reads like a sticky note left on someone's desk.",
+      nopart: "Who is Ken? Who owns ROK and Fora? No titles, no companies, no relationship context.",
+      nodeal: "ROK and Fora are two separate deals. Mixing them into one note means neither deal record gets complete activity history. Log separately.",
+      nosowhat: "Requesting documents is an action — but why? What stage does receiving these move each deal to?",
+      nonext: "There's a call with Ken 'later today' but no task created, no owner named, no outcome expected.",
+      nocommit: "You requested documents but there's no client commitment with a deadline. Without a date, there's no basis for a follow-up task."
+    },
+    model: `[Split into two separate deal notes. Example for ROK:]
+
+Date: Wednesday, April 08 2026 — [time] ET
+Participants: [Rep Name] (Proximo Capital); [ROK contact name, title]
+Summary: Follow-up touchpoint to gather outstanding diligence materials. Rep requested last 4 months of bank statements. Client to provide by [date].
+
+Key Discussion Points:
+- Bank statements requested to complete financial review and advance deal to next stage
+- Client confirmed they can pull statements; estimated turnaround [X days]
+
+Commitments Made:
+Rep: Follow up if not received by [date]
+Client: Deliver last 4 months bank statements — Due: [agreed date]
+
+Next Steps:
+1. Rep: Follow up if statements not received — Due: [date + 2 business days]`
+  },
+  {
+    type: "Stuck Detail",
+    note: `Followed up with Shah for materials - he said he hasn't heard from Lyn either. Closing this file (until we hear back from client and get financials)`,
+    failures: [
+      { id: "novague", label: "Vague — who are Shah and Lyn? What materials exactly?" },
+      { id: "nodate", label: "No date updated on the entry" },
+      { id: "nounblock", label: "No specific list of what is needed to unblock" },
+      { id: "noreview", label: "No review date — 'until we hear back' is not a date" },
+      { id: "notask", label: "No corresponding task created in HubSpot" },
+      { id: "noescalate", label: "No escalation path if client stays dark" },
+    ],
+    correct: ["novague","nodate","nounblock","noreview","notask","noescalate"],
+    failureNotes: {
+      novague: "Shah and Lyn appear without titles, companies, or roles. What 'materials' are needed? A Stuck Detail must be readable by someone who doesn't know the deal.",
+      nodate: "No date means there's no way to tell if this was written yesterday or three weeks ago. A stale entry creates false confidence in pipeline reviews.",
+      nounblock: "The guide requires a discrete list of specific items — yes/no answerable. 'Materials and financials' is not discrete enough.",
+      noreview: "'Until we hear back' is not a review date. The Stuck Detail spec requires a hard date, even if nothing has changed.",
+      notask: "A Stuck Detail without a follow-up task is unenforceable. The review date must correspond to an open task in HubSpot.",
+      noescalate: "What happens if Lyn and Shah stay dark? The note doesn't say. Every Stuck Detail needs a stated consequence for non-response."
+    },
+    model: `Date Updated: April 09, 2026
+Reason Stuck: Both internal contact Shah [Last Name] and client contact Lyn [Last Name] have gone unresponsive. Outstanding materials include [specific items, e.g., Q1 financials and updated project schedule]. Last outreach to Lyn was [date].
+
+What Is Needed to Unblock:
+- Client financials from Lyn [Last Name]
+- Confirmation from client that deal is still active
+
+Review Date: April 16, 2026 — If no response from client by this date, move deal to Disengaging and notify [Manager Name]. Rep to create corresponding follow-up task in HubSpot.`
+  },
+  {
+    type: "Call Note",
+    note: `Got times that work for Jen for a call with JJ. Asked JJ what times would work for him for next week. Can't do the 14th per Jen\n\nCall scheduled for 4/13`,
+    failures: [
+      { id: "ghost", label: "Ghost Note — no deal context whatsoever" },
+      { id: "nopart", label: "No full names, titles, or companies for Jen or JJ" },
+      { id: "nodate", label: "No date or timestamp on the note itself" },
+      { id: "nodeal", label: "No mention of what deal or company this relates to" },
+      { id: "nonext", label: "Call on 4/13 not logged as a task with an owner" },
+      { id: "nosowhat", label: "No so-what — why is this call happening?" },
+    ],
+    correct: ["ghost","nopart","nodate","nodeal","nonext","nosowhat"],
+    failureNotes: {
+      ghost: "This reads like a text message thread, not a CRM note. No context, no structure, no deal reference.",
+      nopart: "Jen and JJ have no last names, no titles, and no company. Unworkable for any handoff or relationship mapping.",
+      nodate: "When was this written? The note has no timestamp, so the activity timeline is broken.",
+      nodeal: "Which deal is this scheduling note for? A note floating without a deal reference is invisible in pipeline reviews.",
+      nonext: "The call on 4/13 should be a task — with an owner, a type (Call), associated to the deal and both contacts.",
+      nosowhat: "What is the call on 4/13 for? What does it mean if it goes well? Why are Jen and JJ talking? None of this is captured."
+    },
+    model: `Date: Wednesday, April 09 2026 — [time] ET
+Participants: [Rep Name] (Proximo Capital)
+Summary: Scheduling coordination for intro call between [Jen Last Name, Title, Company] and [JJ Last Name, Title, Company]. Call confirmed for April 13.
+
+Key Discussion Points:
+- Aligned on April 13 as the meeting date; April 14 unavailable per Jen
+- Purpose of call: [state the deal reason — e.g., initial capability discussion, deal intro, lender meeting]
+
+Next Steps:
+1. Rep: Send calendar invite to Jen and JJ for April 13 — Due: today
+2. Rep: Log call outcome note after April 13 meeting — Due: April 13
+
+[Task created: [Company] — Intro call with Jen and JJ — 04/13]`
+  }
+];
+
+const TOTAL = ROUNDS.length;
+const TIMER_SEC = 90;
+
+let S = {
+  screen:'lobby', roomCode:null, myName:null, isHost:false,
+  round:0, myScore:0, selected:[], submitted:false,
+  timerInt:null, timerLeft:TIMER_SEC, pollInt:null, session:null
+};
+
+function genCode(){ return Math.random().toString(36).substr(2,4).toUpperCase(); }
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  S.screen=id;
+}
+
+async function save(data){
+  try{ await window.storage.set('room:'+S.roomCode, JSON.stringify(data), true); }catch(e){}
+}
+async function load(){
+  try{
+    const r=await window.storage.get('room:'+S.roomCode,true);
+    return r?JSON.parse(r.value):null;
+  }catch(e){return null;}
+}
+
+function pills(players, containerId){
+  const c=document.getElementById(containerId);
+  if(!c)return;
+  c.innerHTML=players.map((p,i)=>
+    `<span class="pill"><span class="pill-dot"></span>${p.name}${i===0?'<span class="pill-host">Host</span>':''}</span>`
+  ).join('');
+}
+
+async function createRoom(){
+  const name=document.getElementById('host-name').value.trim();
+  if(!name){document.getElementById('host-err').textContent='Enter your name first.';return;}
+  document.getElementById('host-err').textContent='';
+  const code=genCode();
+  S.roomCode=code; S.myName=name; S.isHost=true;
+  const session={code,host:name,players:[{name,score:0}],started:false,currentRound:0,finished:false};
+  await save(session); S.session=session;
+  document.getElementById('room-code-display').textContent=code;
+  document.getElementById('room-created').style.display='block';
+  pills(session.players,'pills-container');
+  document.getElementById('start-hint').textContent='Waiting for players to join...';
+  S.pollInt=setInterval(async()=>{
+    const s=await load(); if(!s)return; S.session=s;
+    pills(s.players,'pills-container');
+    const btn=document.getElementById('start-btn');
+    const hint=document.getElementById('start-hint');
+    if(s.players.length>=2){
+      btn.disabled=false;
+      hint.textContent=`${s.players.length} player${s.players.length>1?'s':''} joined. Ready to start!`;
+    } else {
+      hint.textContent='Waiting for at least 1 more player...';
+    }
+    if(s.started&&S.screen!=='game'){clearInterval(S.pollInt);beginGame(s);}
+  },2000);
+}
+
+async function joinRoom(){
+  const name=document.getElementById('join-name').value.trim();
+  const code=document.getElementById('join-code').value.trim().toUpperCase();
+  if(!name){document.getElementById('join-err').textContent='Enter your name.';return;}
+  if(code.length!==4){document.getElementById('join-err').textContent='Enter a 4-letter room code.';return;}
+  S.roomCode=code; S.myName=name; S.isHost=false;
+  const s=await load();
+  if(!s){document.getElementById('join-err').textContent='Room not found. Check the code.';return;}
+  if(s.started){document.getElementById('join-err').textContent='Game already started.';return;}
+  if(s.players.length>=4){document.getElementById('join-err').textContent='Room is full (4 players max).';return;}
+  document.getElementById('join-err').textContent='';
+  if(!s.players.find(p=>p.name===name)){s.players.push({name,score:0});await save(s);}
+  S.session=s; showScreen('waiting');
+  pills(s.players,'waiting-pills');
+  S.pollInt=setInterval(async()=>{
+    const s=await load(); if(!s)return; S.session=s;
+    pills(s.players,'waiting-pills');
+    if(s.started&&S.screen!=='game'){clearInterval(S.pollInt);beginGame(s);}
+    if(s.finished){clearInterval(S.pollInt);showEnd(s);}
+  },2000);
+}
+
+async function startGame(){
+  const s=await load(); if(!s)return;
+  s.started=true; s.currentRound=0;
+  await save(s); clearInterval(S.pollInt);
+  beginGame(s);
+}
+
+function beginGame(session){
+  S.session=session; S.round=session.currentRound||0;
+  showScreen('game'); renderRound(S.round);
+  S.pollInt=setInterval(async()=>{
+    const s=await load(); if(!s)return; S.session=s;
+    renderScores(s.players,'live-scores-bar');
+    if(s.currentRound!==S.round&&!S.isHost){
+      clearInterval(S.pollInt); S.round=s.currentRound;
+      if(s.finished){showEnd(s);return;}
+      showScreen('game'); renderRound(S.round); startLivePoll();
+    }
+    if(s.finished){clearInterval(S.pollInt);showEnd(s);}
+  },2500);
+}
+
+function startLivePoll(){
+  S.pollInt=setInterval(async()=>{
+    const s=await load(); if(!s)return; S.session=s;
+    renderScores(s.players,'live-scores-bar');
+    if(s.currentRound!==S.round&&!S.isHost){
+      clearInterval(S.pollInt); S.round=s.currentRound;
+      if(s.finished){showEnd(s);return;}
+      showScreen('game'); renderRound(S.round); startLivePoll();
+    }
+    if(s.finished){clearInterval(S.pollInt);showEnd(s);}
+  },2500);
+}
+
+function renderRound(idx){
+  const r=ROUNDS[idx];
+  S.selected=[]; S.submitted=false; S.timerLeft=TIMER_SEC;
+  clearInterval(S.timerInt);
+  document.getElementById('round-label').textContent=`Round ${idx+1} of ${TOTAL}`;
+  document.getElementById('prog-fill').style.width=`${(idx/TOTAL)*100}%`;
+  document.getElementById('note-type-label').textContent=r.type;
+  document.getElementById('note-body-text').textContent=r.note;
+  document.getElementById('rewrite-input').value='';
+  document.getElementById('submit-status').textContent='';
+  document.getElementById('submit-btn').disabled=false;
+  document.getElementById('my-pts-header').textContent=S.myScore+' pts';
+
+  document.getElementById('failure-options').innerHTML=r.failures.map(f=>`
+    <div class="failure-opt" id="fo-${f.id}" onclick="toggleF('${f.id}')">
+      <div class="fo-box" id="fob-${f.id}">
+        <svg class="fo-tick" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="fo-text">${f.label}</div>
+    </div>`).join('');
+
+  const td=document.getElementById('timer-display');
+  td.textContent=TIMER_SEC; td.classList.remove('urgent');
+  S.timerInt=setInterval(()=>{
+    S.timerLeft--;
+    if(td){td.textContent=S.timerLeft;if(S.timerLeft<=15)td.classList.add('urgent');}
+    if(S.timerLeft<=0){clearInterval(S.timerInt);if(!S.submitted)submitAnswer();}
+  },1000);
+}
+
+function toggleF(id){
+  if(S.submitted)return;
+  const el=document.getElementById('fo-'+id);
+  const idx=S.selected.indexOf(id);
+  if(idx===-1){S.selected.push(id);el.classList.add('selected');}
+  else{S.selected.splice(idx,1);el.classList.remove('selected');}
+}
+
+async function submitAnswer(){
+  if(S.submitted)return;
+  S.submitted=true; clearInterval(S.timerInt);
+  document.getElementById('submit-btn').disabled=true;
+  const r=ROUNDS[S.round];
+  const correct=r.correct; const sel=S.selected;
+  const tp=sel.filter(id=>correct.includes(id)).length;
+  const fp=sel.filter(id=>!correct.includes(id)).length;
+  let pts=Math.max(0,tp-fp);
+  const rewrite=document.getElementById('rewrite-input').value.trim();
+  if(rewrite.length>20)pts+=1;
+  S.myScore+=pts;
+  document.getElementById('my-pts-header').textContent=S.myScore+' pts';
+  const s=await load();
+  if(s){
+    const p=s.players.find(pl=>pl.name===S.myName);
+    if(p)p.score=S.myScore;
+    await save(s); S.session=s;
+  }
+  showResult(r,sel,correct,pts,tp,rewrite);
+}
+
+function showResult(r,sel,correct,pts,tp,rewrite){
+  clearInterval(S.pollInt);
+  showScreen('result');
+  document.getElementById('result-round-label').textContent=`Round ${S.round+1} of ${TOTAL} Result`;
+  document.getElementById('result-pts-display').textContent=`+${pts} pt${pts===1?'':'s'}`;
+
+  const missed=correct.filter(id=>!sel.includes(id)).length;
+  const fp=sel.filter(id=>!correct.includes(id)).length;
+  let cls,icon,title,body;
+  if(tp===correct.length&&fp===0){
+    cls='correct';icon='';title='Clean sweep!';
+    body=`You nailed all ${correct.length} failures.${rewrite.length>20?' Bonus point for the rewrite.':''}`;
+  } else if(tp>=Math.ceil(correct.length*0.6)){
+    cls='partial';icon='';title='Good eye!';
+    body=`You caught ${tp} of ${correct.length} failures.${missed>0?` Missed ${missed}.`:''}`;
+  } else {
+    cls='wrong';icon='';title='Back to the playbook...';
+    body=`Only ${tp} of ${correct.length} caught. Check the explanations below.`;
+  }
+  document.getElementById('result-banner-container').innerHTML=
+    `<div class="result-banner ${cls}"><div class="rb-icon">${icon}</div><div><div class="rb-title">${title}</div><div class="rb-body">${body}</div></div></div>`;
+
+  document.getElementById('failure-explanations').innerHTML=correct.map(id=>{
+    const f=r.failures.find(x=>x.id===id);
+    const hit=sel.includes(id);
+    return `<div class="fe-item"><span class="fe-tag ${hit?'caught':'missed'}">${hit?'Caught':'Missed'}: ${f.label.split(' ')[0]}</span><span class="fe-text">${r.failureNotes[id]}</span></div>`;
+  }).join('');
+
+  document.getElementById('model-answer-text').textContent=r.model;
+  if(S.session)renderScores(S.session.players,'result-scores-bar');
+
+  const nb=document.getElementById('next-round-btn');
+  if(S.isHost){
+    nb.style.display='inline-flex';
+    nb.textContent=S.round+1>=TOTAL?'See Final Results':'Next Round';
+  } else {
+    nb.style.display='none';
+    S.pollInt=setInterval(async()=>{
+      const s=await load(); if(!s)return;
+      if(s.finished){clearInterval(S.pollInt);showEnd(s);return;}
+      if(s.currentRound>S.round){
+        clearInterval(S.pollInt); S.round=s.currentRound;
+        showScreen('game'); renderRound(S.round); startLivePoll();
+      }
+    },2500);
+  }
+}
+
+async function nextRound(){
+  if(!S.isHost)return;
+  const s=await load(); if(!s)return;
+  const next=S.round+1;
+  if(next>=TOTAL){s.finished=true;await save(s);showEnd(s);}
+  else{s.currentRound=next;await save(s);S.round=next;clearInterval(S.pollInt);showScreen('game');renderRound(S.round);startLivePoll();}
+}
+
+function renderScores(players,containerId){
+  const el=document.getElementById(containerId); if(!el)return;
+  const sorted=[...players].sort((a,b)=>b.score-a.score);
+  el.innerHTML=sorted.map((p,i)=>
+    `<div class="score-chip${i===0&&p.score>0?' leading':''}"><span class="score-name">${p.name}</span><span class="score-pts">${p.score}pts</span></div>`
+  ).join('');
+}
+
+function showEnd(session){
+  showScreen('end');
+  const sorted=[...session.players].sort((a,b)=>b.score-a.score);
+  const maxPts=TOTAL*7;
+  document.getElementById('end-sub').textContent=`${TOTAL} rounds complete. Max possible: ${maxPts} pts.`;
+  const medals=['1st','2nd','3rd','4th'];
+  document.getElementById('final-lb').innerHTML=sorted.map((p,i)=>`
+    <div class="lb-row ${i===0?'first':i===1?'second':''}">
+      <div class="lb-rank">${medals[i]||''}</div>
+      <div class="lb-name">${p.name}</div>
+      <div class="lb-pts">${p.score}</div>
+    </div>`).join('');
+  const w=sorted[0];
+  const max=TOTAL*6;
+  let note=w.score>=max?`${w.name} got a perfect score. Someone read the guide.`:
+    w.score>=Math.floor(max*0.75)?`${w.name} wins. Strong showing from the room.`:
+    `${w.name} takes it. Everyone has notes to tighten — that's the whole point.`;
+  document.getElementById('winner-note').textContent=note;
+}
+
+function resetGame(){
+  clearInterval(S.pollInt); clearInterval(S.timerInt);
+  S={screen:'lobby',roomCode:null,myName:null,isHost:false,round:0,myScore:0,selected:[],submitted:false,timerInt:null,timerLeft:TIMER_SEC,pollInt:null,session:null};
+  ['host-name','join-name','join-code'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['host-err','join-err'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='';});
+  document.getElementById('room-created').style.display='none';
+  document.getElementById('start-btn').disabled=true;
+  showScreen('lobby');
+}
+</script>
+</body>
+</html>
