@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The CRM Spot-the-Flaw Challenge | Proximo Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#f8f7f5;--surface:#fff;--surface2:#f2f0ec;
+  --border:rgba(0,0,0,.1);--border2:rgba(0,0,0,.18);
+  --text:#1a1916;--text2:#5a5854;--text3:#9a9894;
+  --purple:#534AB7;--purple-light:#EEEDFE;--purple-dark:#26215C;--purple-mid:#AFA9EC;
+  --teal:#1D9E75;--teal-light:#E1F5EE;--teal-dark:#085041;--teal-mid:#5DCAA5;
+  --amber:#BA7517;--amber-light:#FAEEDA;--amber-dark:#412402;
+  --coral:#D85A30;--coral-light:#FAECE7;--coral-dark:#4A1B0C;
+  --r:10px;--rl:14px;
+}
+html{font-size:16px;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;}
+.wrap{max-width:720px;margin:0 auto;padding:0 1.25rem 4rem;}
+.topbar{background:var(--purple-dark);padding:10px 1.5rem;display:flex;align-items:center;justify-content:space-between;}
+.topbar-brand{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:rgba(255,255,255,.7);letter-spacing:.06em;text-transform:uppercase;}
+.topbar-tag{font-size:11px;color:rgba(255,255,255,.5);}
+.screen{display:none;}.screen.active{display:block;}
+.hero{background:var(--purple-dark);padding:2.5rem 1.5rem 2rem;text-align:center;margin-bottom:2rem;}
+.badge{display:inline-block;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:16px;border:.5px solid rgba(255,255,255,.2);}
+.hero h1{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:10px;}
+.hero p{font-size:14px;color:rgba(255,255,255,.65);max-width:400px;margin:0 auto;}
+.card{background:var(--surface);border:.5px solid var(--border);border-radius:var(--rl);padding:1.5rem;margin-bottom:1rem;}
+.clabel{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+input[type=text]{width:100%;padding:10px 14px;font-size:14px;font-family:'DM Sans',sans-serif;border:1px solid var(--border2);border-radius:var(--r);background:var(--surface);color:var(--text);outline:none;transition:border-color .15s;}
+input[type=text]:focus{border-color:var(--purple);}
+input[type=text]::placeholder{color:var(--text3);}
+.codein{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;letter-spacing:.15em;text-align:center;text-transform:uppercase;width:140px;}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 22px;font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;border-radius:var(--r);cursor:pointer;transition:all .15s;border:none;white-space:nowrap;}
+.btnp{background:var(--purple);color:#fff;}.btnp:hover{background:#453ea0;}.btnp:disabled{opacity:.4;cursor:not-allowed;}
+.btng{background:transparent;color:var(--text2);border:1px solid var(--border2);}.btng:hover{background:var(--surface2);}
+.row{display:flex;gap:8px;align-items:flex-start;}.row input{flex:1;}
+.div{text-align:center;font-size:12px;color:var(--text3);margin:1rem 0;position:relative;}
+.div::before,.div::after{content:'';position:absolute;top:50%;width:calc(50% - 60px);height:.5px;background:var(--border);}
+.div::before{left:0;}.div::after{right:0;}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:.5px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--text);}
+.pdot{width:7px;height:7px;border-radius:50%;background:var(--teal);flex-shrink:0;}
+.phost{font-size:10px;background:var(--purple-light);color:var(--purple-dark);padding:1px 7px;border-radius:10px;}
+.rcode{font-family:'Syne',sans-serif;font-size:42px;font-weight:800;letter-spacing:.18em;color:var(--purple);text-align:center;padding:12px 0 4px;}
+.rcodehint{text-align:center;font-size:12px;color:var(--text3);margin-bottom:12px;}
+.err{font-size:12px;color:var(--coral);min-height:18px;margin-top:4px;}
+.gtop{display:flex;align-items:center;justify-content:space-between;padding:1rem 0 .75rem;}
+.rlabel{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text2);}
+.ptsbadge{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--purple);background:var(--purple-light);padding:4px 14px;border-radius:20px;}
+.prog{height:4px;background:var(--surface2);border-radius:2px;margin-bottom:1rem;overflow:hidden;}
+.progf{height:100%;background:var(--purple);border-radius:2px;transition:width .4s ease;}
+.sbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;}
+.schip{display:flex;align-items:center;gap:6px;background:var(--surface2);border:.5px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;}
+.schip.lead{background:var(--teal-light);border-color:var(--teal-mid);}
+.sname{font-weight:500;color:var(--text);}
+.spts{font-family:'Syne',sans-serif;font-weight:700;color:var(--purple);}
+.schip.lead .spts{color:var(--teal-dark);}
+.ncard{background:var(--surface2);border:.5px solid var(--border);border-radius:var(--rl);padding:1.25rem;margin-bottom:1.25rem;}
+.ntype{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+.nbody{font-size:13.5px;line-height:1.75;color:var(--text);white-space:pre-wrap;font-style:italic;}
+.qlabel{font-size:12px;font-weight:500;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.qtag{font-size:10px;background:var(--purple-light);color:var(--purple-dark);padding:2px 8px;border-radius:10px;font-weight:500;}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:1.25rem;}
+@media(max-width:500px){.fgrid{grid-template-columns:1fr;}}
+.fopt{display:flex;align-items:flex-start;gap:8px;padding:9px 11px;border:1px solid var(--border);border-radius:var(--r);cursor:pointer;background:var(--surface);transition:all .1s;user-select:none;}
+.fopt:hover{border-color:var(--border2);background:var(--surface2);}
+.fopt.sel{border-color:var(--purple);background:var(--purple-light);}
+.fopt.cor{border-color:var(--teal);background:var(--teal-light);}
+.fopt.wrg{border-color:var(--coral);background:var(--coral-light);}
+.fbox{width:17px;height:17px;border:1.5px solid #ccc;border-radius:3px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .1s;}
+.fopt.sel .fbox{background:var(--purple);border-color:var(--purple);}
+.fopt.cor .fbox{background:var(--teal);border-color:var(--teal);}
+.fopt.wrg .fbox{background:var(--coral);border-color:var(--coral);}
+.ftick{display:none;}
+.fopt.sel .ftick,.fopt.cor .ftick,.fopt.wrg .ftick{display:block;}
+.ftext{font-size:12px;line-height:1.45;color:var(--text);}
+.rwsec{margin-bottom:1.25rem;}
+textarea{width:100%;min-height:90px;padding:10px 12px;font-size:13px;font-family:'DM Sans',sans-serif;border:1px solid var(--border2);border-radius:var(--r);background:var(--surface);color:var(--text);resize:vertical;line-height:1.6;outline:none;}
+textarea:focus{border-color:var(--purple);}
+.rwhint{font-size:11px;color:var(--text3);margin-top:4px;}
+.subrow{display:flex;align-items:center;gap:12px;}
+.timer{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;min-width:40px;color:var(--text2);}
+.timer.urg{color:var(--coral);}
+.rbanner{border-radius:var(--rl);padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:12px;}
+.rbanner.cor{background:var(--teal-light);border:.5px solid var(--teal-mid);}
+.rbanner.par{background:var(--amber-light);border:.5px solid #EF9F27;}
+.rbanner.wrg{background:var(--coral-light);border:.5px solid #F0997B;}
+.rbicon{font-size:22px;flex-shrink:0;margin-top:1px;}
+.rbtitle{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:2px;}
+.rbanner.cor .rbtitle{color:var(--teal-dark);}
+.rbanner.par .rbtitle{color:var(--amber-dark);}
+.rbanner.wrg .rbtitle{color:var(--coral-dark);}
+.rbbody{font-size:13px;line-height:1.5;}
+.rbanner.cor .rbbody{color:#0F6E56;}
+.rbanner.par .rbbody{color:var(--amber);}
+.rbanner.wrg .rbbody{color:var(--coral);}
+.felist{margin-bottom:1.25rem;}
+.feitem{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;}
+.fetag{font-size:10px;font-weight:600;padding:2px 9px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.fetag.caught{background:var(--teal-light);color:var(--teal-dark);}
+.fetag.missed{background:var(--amber-light);color:var(--amber-dark);}
+.fetext{font-size:12.5px;color:var(--text2);line-height:1.55;}
+.mcard{border:.5px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:1.25rem;}
+.mhead{background:var(--surface2);padding:8px 1rem;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);border-bottom:.5px solid var(--border);}
+.mbody{padding:1rem;font-size:12.5px;line-height:1.75;color:var(--text);white-space:pre-wrap;background:var(--surface);}
+.nxrow{display:flex;justify-content:flex-end;margin-top:1rem;}
+.wc{text-align:center;padding:3rem 1rem;}
+.wc h2{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:8px;}
+.wc p{font-size:13px;color:var(--text2);margin-bottom:1.5rem;}
+.lbhero{text-align:center;padding:2rem 0 1.5rem;}
+.lbhero h2{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;margin-bottom:6px;}
+.lbhero p{font-size:13px;color:var(--text2);}
+.lbrow{display:flex;align-items:center;gap:14px;padding:14px 1.25rem;border-radius:var(--rl);margin-bottom:8px;border:.5px solid var(--border);background:var(--surface);}
+.lbrow.first{background:var(--purple-light);border-color:var(--purple-mid);}
+.lbrank{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;width:32px;text-align:center;color:var(--text2);}
+.lbrow.first .lbrank{color:var(--purple-dark);}
+.lbname{flex:1;font-size:15px;font-weight:500;}
+.lbpts{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--purple);}
+.lbrow.first .lbpts{color:var(--purple-dark);}
+.lbwn{text-align:center;font-size:13px;color:var(--text3);margin-top:1.25rem;font-style:italic;}
+.lbrp{text-align:center;margin-top:1.5rem;}
+.shint{font-size:12px;color:var(--text3);text-align:center;margin-top:6px;}
+.srow{text-align:center;margin-top:1rem;}
+.sep{height:.5px;background:var(--border);margin:1.25rem 0;}
+.smsg{font-size:12px;color:var(--text3);text-align:center;margin-top:8px;min-height:18px;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <span class="topbar-brand">Proximo Capital</span>
+  <span class="topbar-tag">CRM Training</span>
+</div>
+
+<div id="s-lobby" class="screen active">
+  <div class="hero">
+    <div class="badge">Banker Boot Camp</div>
+    <h1>The CRM<br>Spot-the-Flaw Challenge</h1>
+    <p>Real notes. Real mistakes. First to catch all the failures on 4 of 5 rounds wins.</p>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <div class="clabel">Host — Create a room</div>
+      <div class="row"><input type="text" id="hname" placeholder="Your name" maxlength="20"/><button class="btn btnp" onclick="createRoom()">Create Room</button></div>
+      <div id="herr" class="err"></div>
+      <div id="rcreated" style="display:none">
+        <div class="sep"></div>
+        <div class="clabel" style="text-align:center">Share this code with players</div>
+        <div class="rcode" id="rcode">----</div>
+        <div class="rcodehint">Others join using this code below</div>
+        <div class="clabel">Players in room</div>
+        <div class="pills" id="hpills"></div>
+        <div class="shint" id="shint"></div>
+        <div class="srow"><button class="btn btnp" id="sbtn" onclick="startGame()" disabled>Start Game</button></div>
+      </div>
+    </div>
+    <div class="div">or join an existing room</div>
+    <div class="card">
+      <div class="clabel">Join a room</div>
+      <div class="row" style="margin-bottom:8px"><input type="text" id="jname" placeholder="Your name" maxlength="20"/></div>
+      <div class="row"><input type="text" class="codein" id="jcode" placeholder="CODE" maxlength="4"/><button class="btn btnp" onclick="joinRoom()">Join Room</button></div>
+      <div id="jerr" class="err"></div>
+    </div>
+  </div>
+</div>
+
+<div id="s-waiting" class="screen">
+  <div class="wrap">
+    <div class="wc">
+      <h2>You're in!</h2>
+      <p>Waiting for the host to start...</p>
+      <div class="clabel">Players in room</div>
+      <div class="pills" id="wpills"></div>
+      <div class="smsg" id="wmsg"></div>
+    </div>
+  </div>
+</div>
+
+<div id="s-game" class="screen">
+  <div class="wrap">
+    <div class="gtop"><div class="rlabel" id="rlbl">Round 1 of 5</div><div class="ptsbadge" id="mpts">0 pts</div></div>
+    <div class="prog"><div class="progf" id="pgf" style="width:0%"></div></div>
+    <div class="sbar" id="lsbar"></div>
+    <div class="ncard"><div class="ntype" id="ntype">Call Note</div><div class="nbody" id="nbody"></div></div>
+    <div class="qlabel">What's wrong with this? <span class="qtag">Select all that apply</span></div>
+    <div class="fgrid" id="fopts"></div>
+    <div class="rwsec">
+      <div class="qlabel">Rewrite the fix in one sentence <span class="qtag">Optional +1 pt</span></div>
+      <textarea id="rwin" placeholder="Write a corrected version or just the key fix..."></textarea>
+      <div class="rwhint">Doesn't need to be perfect. Show you understand the standard.</div>
+    </div>
+    <div class="subrow">
+      <div class="timer" id="tmr">90</div>
+      <button class="btn btnp" id="subbtn" onclick="submitAnswer()">Submit</button>
+      <div class="smsg" id="subst" style="text-align:left;margin:0"></div>
+    </div>
+  </div>
+</div>
+
+<div id="s-result" class="screen">
+  <div class="wrap">
+    <div class="gtop"><div class="rlabel" id="rrlbl">Round 1 Result</div><div class="ptsbadge" id="rpts">+0 pts</div></div>
+    <div id="rbanner"></div>
+    <div class="felist" id="felist"></div>
+    <div class="mcard"><div class="mhead">Model Answer</div><div class="mbody" id="mbody"></div></div>
+    <div class="sbar" id="rsbar"></div>
+    <div class="smsg" id="rst">Waiting for host to advance...</div>
+    <div class="nxrow"><button class="btn btnp" id="nxbtn" onclick="nextRound()" style="display:none">Next Round</button></div>
+  </div>
+</div>
+
+<div id="s-end" class="screen">
+  <div class="wrap">
+    <div class="lbhero"><h2>Final Standings</h2><p id="esub"></p></div>
+    <div id="flb"></div>
+    <div class="lbwn" id="wnote"></div>
+    <div class="lbrp"><button class="btn btng" onclick="resetGame()">Play Again</button></div>
+  </div>
+</div>
+
+<script>
+const API='https://api.jsonbin.io/v3/b';
+const KEY='$2a$10$PW0SBH3pDa0dPgoWhMbbUuq0HA2S0gpsUsHfdgZlsszKmI3ye2zmC';
+const H={'Content-Type':'application/json','X-Master-Key':KEY,'X-Bin-Private':'false'};
+
+const RDS=[
+  {type:"Call Note",note:`Per James, he's been back and forth with Dave Givey to see if this is real.`,
+   failures:[{id:"ghost",label:"Ghost Note — no structure or substance"},{id:"nodate",label:"No date or timestamp"},{id:"nopart",label:"No participant names or titles"},{id:"nodeal",label:"No deal context or so-what"},{id:"nonext",label:"No next step or owner"},{id:"hedged",label:"Hedged flag — deal health not assessed"}],
+   correct:["ghost","nodate","nopart","nodeal","nonext","hedged"],
+   fn:{ghost:"One vague sentence with no structure — no usable information for a pipeline review or handoff.",nodate:"No date means the activity timeline is broken. Was this today? Last week?",nopart:"We know 'James' and 'Dave Givey' but no titles, no company, no role context.",nodeal:"What deal is this? What stage? Zero context for anyone reading cold.",nonext:"No next step, no owner, no deadline. No escalation path if Dave doesn't respond.",hedged:"'To see if this is real' is a Deal Health Flag waiting to be written — buried in a passive sentence with no consequence."},
+   model:`Date: Thursday, April 09 2026 — 2:00 PM ET\nParticipants: [Rep Name] (Proximo Capital); James [Last Name], [Title]\nSummary: Internal update. Deal viability unconfirmed after multiple touchpoints with Dave Givey.\n\nKey Discussion Points:\n- Multiple exchanges with Dave Givey to confirm whether this opportunity is live\n- No commitment received; deal reality and timeline unconfirmed\n\nCommitments Made:\nRep: Obtain clear yes/no from Dave Givey — Due: Mon Apr 13\n\nNext Steps:\n1. James: Confirm deal status with Dave Givey — Due: Mon Apr 13\n2. If no response by Apr 13, move to Disengaging\n\nDeal Health Flag: Viability unconfirmed after multiple attempts. If client cannot confirm by Apr 13, recommend disengaging.`},
+  {type:"Task",note:`Title: "Text client for LOI's"\nBody: Need more info from client.\nDue: Oct 5, 2026\nType: To-Do\nAssociated contact/company: [none]`,
+   failures:[{id:"noco",label:"No company name in the title"},{id:"vague",label:"Vague action — doesn't say what for"},{id:"nofmt",label:"Title doesn't follow [Company / Action / MM/DD] format"},{id:"noasc",label:"Not associated with a deal or contact"},{id:"tbody",label:"Task body adds no useful context"},{id:"wtype",label:"Task type is To-Do but action is a call/text"}],
+   correct:["noco","vague","nofmt","noasc","tbody","wtype"],
+   fn:{noco:"Without a company name, this task is invisible in a filtered task list or pipeline review.",vague:"'Text client' tells you nothing about what to ask or what outcome you're driving.",nofmt:"Correct format: [Company] — [verb + specific thing] — MM/DD. This task has none of those.",noasc:"A task with no associated deal or contact is an orphan — won't appear on the deal record.",tbody:"'Need more info' restates the obvious. A good body says what to ask and what to do if no response.",wtype:"Setting it as To-Do when the action is a call/text creates a gap in the communication log."},
+   model:`Title: [Company Name] — Follow up on outstanding LOIs — 10/05\nType: Call\nDue: 10/05/2026\nAssociated: [Deal record] + [Contact: client name]\nBody: Client has not yet returned signed LOIs. Confirm receipt and get ETA. If not received by 10/07, escalate to [Manager Name].`},
+  {type:"Call Note",note:`4/8\n- ROK - requested last 4 month bank statements\n- Fora - requested YTD financials\n- have call with Ken later today`,
+   failures:[{id:"ghost",label:"Ghost Note — no structure or context"},{id:"nopart",label:"No participant names or titles"},{id:"nodeal",label:"Multiple deals mixed into one note"},{id:"nosw",label:"No so-what for either deal"},{id:"nonext",label:"No next steps with owners and due dates"},{id:"nocmt",label:"No client commitments or delivery dates"}],
+   correct:["ghost","nopart","nodeal","nosw","nonext","nocmt"],
+   fn:{ghost:"Three bullets with no summary, no date context, no participants. Reads like a sticky note.",nopart:"Who is Ken? Who owns ROK and Fora? No titles, no companies.",nodeal:"ROK and Fora are two separate deals. Log separately — each needs its own activity history.",nosw:"Requesting documents is an action — but why? What stage does receiving these move the deal to?",nonext:"Call with Ken 'later today' — no task created, no owner, no outcome expected.",nocmt:"You requested documents but logged no client commitment with a deadline."},
+   model:`[Split into two separate deal notes. Example for ROK:]\n\nDate: Wednesday, April 08 2026 — [time] ET\nParticipants: [Rep Name] (Proximo Capital); [ROK contact, title]\nSummary: Follow-up to gather outstanding diligence materials.\n\nCommitments Made:\nClient: Deliver last 4 months bank statements — Due: [agreed date]\n\nNext Steps:\n1. Rep: Follow up if statements not received — Due: [date + 2 business days]`},
+  {type:"Stuck Detail",note:`Followed up with Shah for materials - he said he hasn't heard from Lyn either. Closing this file (until we hear back from client and get financials)`,
+   failures:[{id:"vague",label:"Vague — who are Shah and Lyn? What materials?"},{id:"nodate",label:"No date updated on the entry"},{id:"noublk",label:"No specific list of what is needed to unblock"},{id:"norev",label:"No review date — 'until we hear back' is not a date"},{id:"notsk",label:"No corresponding task created in HubSpot"},{id:"noesc",label:"No escalation path if client stays dark"}],
+   correct:["vague","nodate","noublk","norev","notsk","noesc"],
+   fn:{vague:"Shah and Lyn appear without titles or roles. What 'materials'? Must be readable by someone who doesn't know the deal.",nodate:"No date — impossible to tell if this was written yesterday or three weeks ago.",noublk:"Requires a discrete list of specific items — yes/no answerable. 'Materials and financials' is not specific enough.",norev:"'Until we hear back' is not a review date. The spec requires a hard date.",notsk:"A Stuck Detail without a follow-up task is unenforceable.",noesc:"What happens if they stay dark? The note doesn't say. Every entry needs a consequence for non-response."},
+   model:`Date Updated: April 09, 2026\nReason Stuck: Both Shah [Last Name, Title] and client contact Lyn [Last Name] have gone unresponsive. Outstanding: [specific items]. Last outreach to Lyn: [date].\n\nWhat Is Needed to Unblock:\n- Client financials from Lyn [Last Name]\n- Confirmation that deal is still active\n\nReview Date: April 16, 2026 — If no response, move to Disengaging and notify [Manager Name].`},
+  {type:"Call Note",note:`Got times that work for Jen for a call with JJ. Asked JJ what times would work for him for next week. Can't do the 14th per Jen\n\nCall scheduled for 4/13`,
+   failures:[{id:"ghost",label:"Ghost Note — no deal context whatsoever"},{id:"nopart",label:"No full names, titles, or companies"},{id:"nodate",label:"No date or timestamp on the note"},{id:"nodeal",label:"No mention of what deal this relates to"},{id:"nonext",label:"Call on 4/13 not logged as a task"},{id:"nosw",label:"No so-what — why is this call happening?"}],
+   correct:["ghost","nopart","nodate","nodeal","nonext","nosw"],
+   fn:{ghost:"Reads like a text thread, not a CRM note. No context, no structure, no deal reference.",nopart:"Jen and JJ have no last names, no titles, no company. Unworkable for handoff or relationship mapping.",nodate:"No timestamp — activity timeline is broken.",nodeal:"Which deal? A note without a deal reference is invisible in pipeline reviews.",nonext:"The call on 4/13 should be a task with an owner, type, and deal association.",nosw:"What is the call for? What's at stake? None of this is captured."},
+   model:`Date: Wednesday, April 09 2026 — [time] ET\nParticipants: [Rep Name] (Proximo Capital)\nSummary: Scheduling coordination for intro call between [Jen Last Name, Title, Company] and [JJ Last Name, Title, Company]. Call confirmed for April 13.\n\nNext Steps:\n1. Rep: Send calendar invite — Due: today\n2. Rep: Log call outcome note — Due: April 13\n\n[Task created: [Company] — Intro call with Jen and JJ — 04/13]`}
+];
+
+const TOTAL=RDS.length,TSEC=90;
+let S={screen:'lobby',bid:null,code:null,name:null,host:false,round:0,score:0,sel:[],done:false,ti:null,tl:TSEC,pi:null};
+
+async function mkbin(data){const r=await fetch(API,{method:'POST',headers:{...H,'X-Bin-Name':'room-'+data.code},body:JSON.stringify(data)});const j=await r.json();return j.metadata.id;}
+async function rdbin(id){const r=await fetch(`${API}/${id}/latest`,{headers:{'X-Master-Key':KEY}});const j=await r.json();return j.record;}
+async function upbin(id,data){await fetch(`${API}/${id}`,{method:'PUT',headers:H,body:JSON.stringify(data)});}
+async function findbin(code){try{const r=await fetch(`https://api.jsonbin.io/v3/b?meta=false`,{headers:{'X-Master-Key':KEY}});const j=await r.json();if(!Array.isArray(j))return null;const m=j.find(b=>b.snippetMeta&&b.snippetMeta.name==='room-'+code);return m?m.snippetMeta.id:null;}catch(e){return null;}}
+
+function ss(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('s-'+id).classList.add('active');S.screen=id;}
+function gc(){return Math.random().toString(36).substr(2,4).toUpperCase();}
+function pills(ps,id){const c=document.getElementById(id);if(!c)return;c.innerHTML=ps.map((p,i)=>`<span class="pill"><span class="pdot"></span>${p.name}${i===0?'<span class="phost">Host</span>':''}</span>`).join('');}
+
+async function createRoom(){
+  const n=document.getElementById('hname').value.trim();
+  if(!n){document.getElementById('herr').textContent='Enter your name first.';return;}
+  document.getElementById('herr').textContent='Creating room...';
+  const code=gc();
+  const ses={code,host:n,players:[{name:n,score:0}],started:false,currentRound:0,finished:false};
+  try{
+    const bid=await mkbin(ses);
+    S.bid=bid;S.code=code;S.name=n;S.host=true;
+    document.getElementById('herr').textContent='';
+    document.getElementById('rcode').textContent=code;
+    document.getElementById('rcreated').style.display='block';
+    pills(ses.players,'hpills');
+    document.getElementById('shint').textContent='Waiting for players to join...';
+    S.pi=setInterval(async()=>{
+      const s=await rdbin(S.bid);if(!s)return;
+      pills(s.players,'hpills');
+      const btn=document.getElementById('sbtn');
+      if(s.players.length>=2){btn.disabled=false;document.getElementById('shint').textContent=`${s.players.length} players joined. Ready!`;}
+      else{document.getElementById('shint').textContent='Waiting for at least 1 more player...';}
+      if(s.started&&S.screen!=='game'){clearInterval(S.pi);beginGame(s);}
+    },2500);
+  }catch(e){document.getElementById('herr').textContent='Connection error. Try again.';}
+}
+
+async function joinRoom(){
+  const n=document.getElementById('jname').value.trim();
+  const code=document.getElementById('jcode').value.trim().toUpperCase();
+  if(!n){document.getElementById('jerr').textContent='Enter your name.';return;}
+  if(code.length!==4){document.getElementById('jerr').textContent='Enter a 4-letter room code.';return;}
+  document.getElementById('jerr').textContent='Finding room...';
+  try{
+    const bid=await findbin(code);
+    if(!bid){document.getElementById('jerr').textContent='Room not found. Check the code.';return;}
+    const s=await rdbin(bid);
+    if(!s){document.getElementById('jerr').textContent='Room not found.';return;}
+    if(s.started){document.getElementById('jerr').textContent='Game already started.';return;}
+    if(s.players.length>=4){document.getElementById('jerr').textContent='Room is full (4 players max).';return;}
+    document.getElementById('jerr').textContent='';
+    S.bid=bid;S.code=code;S.name=n;S.host=false;
+    if(!s.players.find(p=>p.name===n)){s.players.push({name:n,score:0});await upbin(bid,s);}
+    ss('waiting');pills(s.players,'wpills');
+    S.pi=setInterval(async()=>{
+      const s=await rdbin(S.bid);if(!s)return;
+      pills(s.players,'wpills');
+      document.getElementById('wmsg').textContent=`${s.players.length} player${s.players.length>1?'s':''} in room`;
+      if(s.started&&S.screen!=='game'){clearInterval(S.pi);beginGame(s);}
+      if(s.finished){clearInterval(S.pi);showEnd(s);}
+    },2500);
+  }catch(e){document.getElementById('jerr').textContent='Connection error. Try again.';}
+}
+
+async function startGame(){
+  const s=await rdbin(S.bid);if(!s)return;
+  s.started=true;s.currentRound=0;
+  await upbin(S.bid,s);clearInterval(S.pi);beginGame(s);
+}
+
+function beginGame(ses){S.round=ses.currentRound||0;ss('game');renderRound(S.round);startPoll();}
+
+function startPoll(){
+  S.pi=setInterval(async()=>{
+    const s=await rdbin(S.bid);if(!s)return;
+    renderScores(s.players,'lsbar');
+    if(s.currentRound!==S.round&&!S.host){clearInterval(S.pi);S.round=s.currentRound;if(s.finished){showEnd(s);return;}ss('game');renderRound(S.round);startPoll();}
+    if(s.finished){clearInterval(S.pi);showEnd(s);}
+  },2500);
+}
+
+function renderRound(idx){
+  const r=RDS[idx];
+  S.sel=[];S.done=false;S.tl=TSEC;clearInterval(S.ti);
+  document.getElementById('rlbl').textContent=`Round ${idx+1} of ${TOTAL}`;
+  document.getElementById('pgf').style.width=`${(idx/TOTAL)*100}%`;
+  document.getElementById('ntype').textContent=r.type;
+  document.getElementById('nbody').textContent=r.note;
+  document.getElementById('rwin').value='';
+  document.getElementById('subst').textContent='';
+  document.getElementById('subbtn').disabled=false;
+  document.getElementById('mpts').textContent=S.score+' pts';
+  document.getElementById('fopts').innerHTML=r.failures.map(f=>`<div class="fopt" id="fo-${f.id}" onclick="tf('${f.id}')"><div class="fbox"><svg class="ftick" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="ftext">${f.label}</div></div>`).join('');
+  const td=document.getElementById('tmr');td.textContent=TSEC;td.classList.remove('urg');
+  S.ti=setInterval(()=>{S.tl--;if(td){td.textContent=S.tl;if(S.tl<=15)td.classList.add('urg');}if(S.tl<=0){clearInterval(S.ti);if(!S.done)submitAnswer();}},1000);
+}
+
+function tf(id){
+  if(S.done)return;
+  const el=document.getElementById('fo-'+id);
+  const i=S.sel.indexOf(id);
+  if(i===-1){S.sel.push(id);el.classList.add('sel');}else{S.sel.splice(i,1);el.classList.remove('sel');}
+}
+
+async function submitAnswer(){
+  if(S.done)return;S.done=true;clearInterval(S.ti);
+  document.getElementById('subbtn').disabled=true;
+  document.getElementById('subst').textContent='Saving...';
+  const r=RDS[S.round];const correct=r.correct;const sel=S.sel;
+  const tp=sel.filter(id=>correct.includes(id)).length;
+  const fp=sel.filter(id=>!correct.includes(id)).length;
+  let pts=Math.max(0,tp-fp);
+  const rw=document.getElementById('rwin').value.trim();
+  if(rw.length>20)pts+=1;
+  S.score+=pts;
+  try{const s=await rdbin(S.bid);if(s){const p=s.players.find(pl=>pl.name===S.name);if(p)p.score=S.score;await upbin(S.bid,s);}}catch(e){}
+  document.getElementById('subst').textContent='';
+  showResult(r,sel,correct,pts,tp,rw);
+}
+
+function showResult(r,sel,correct,pts,tp,rw){
+  clearInterval(S.pi);ss('result');
+  document.getElementById('rrlbl').textContent=`Round ${S.round+1} of ${TOTAL} Result`;
+  document.getElementById('rpts').textContent=`+${pts} pt${pts===1?'':'s'}`;
+  const missed=correct.filter(id=>!sel.includes(id)).length;
+  const fp=sel.filter(id=>!correct.includes(id)).length;
+  let cls,icon,title,body;
+  if(tp===correct.length&&fp===0){cls='cor';icon='';title='Clean sweep!';body=`You nailed all ${correct.length} failures.${rw.length>20?' Bonus point for the rewrite.':''}`;}
+  else if(tp>=Math.ceil(correct.length*.6)){cls='par';icon='';title='Good eye!';body=`You caught ${tp} of ${correct.length} failures.${missed>0?` Missed ${missed}.`:''}`;}
+  else{cls='wrg';icon='';title='Back to the playbook...';body=`Only ${tp} of ${correct.length} caught. Check the explanations below.`;}
+  document.getElementById('rbanner').innerHTML=`<div class="rbanner ${cls}"><div class="rbicon">${icon}</div><div><div class="rbtitle">${title}</div><div class="rbbody">${body}</div></div></div>`;
+  document.getElementById('felist').innerHTML=correct.map(id=>{const f=r.failures.find(x=>x.id===id);const hit=sel.includes(id);return `<div class="feitem"><span class="fetag ${hit?'caught':'missed'}">${hit?'Caught':'Missed'}: ${f.label.split(' ')[0]}</span><span class="fetext">${r.fn[id]}</span></div>`;}).join('');
+  document.getElementById('mbody').textContent=r.model;
+  const nb=document.getElementById('nxbtn');const rs=document.getElementById('rst');
+  if(S.host){nb.style.display='inline-flex';nb.textContent=S.round+1>=TOTAL?'See Final Results':'Next Round';rs.textContent='';}
+  else{nb.style.display='none';rs.textContent='Waiting for host to advance...';}
+  rdbin(S.bid).then(s=>{if(s)renderScores(s.players,'rsbar');});
+  if(!S.host){S.pi=setInterval(async()=>{const s=await rdbin(S.bid);if(!s)return;renderScores(s.players,'rsbar');if(s.finished){clearInterval(S.pi);showEnd(s);return;}if(s.currentRound>S.round){clearInterval(S.pi);S.round=s.currentRound;ss('game');renderRound(S.round);startPoll();}},2500);}
+}
+
+async function nextRound(){
+  if(!S.host)return;const s=await rdbin(S.bid);if(!s)return;
+  const nx=S.round+1;
+  if(nx>=TOTAL){s.finished=true;await upbin(S.bid,s);showEnd(s);}
+  else{s.currentRound=nx;await upbin(S.bid,s);S.round=nx;clearInterval(S.pi);ss('game');renderRound(S.round);startPoll();}
+}
+
+function renderScores(ps,cid){
+  const el=document.getElementById(cid);if(!el)return;
+  const sorted=[...ps].sort((a,b)=>b.score-a.score);
+  el.innerHTML=sorted.map((p,i)=>`<div class="schip${i===0&&p.score>0?' lead':''}"><span class="sname">${p.name}</span><span class="spts">${p.score}pts</span></div>`).join('');
+}
+
+function showEnd(ses){
+  ss('end');const sorted=[...ses.players].sort((a,b)=>b.score-a.score);
+  document.getElementById('esub').textContent=`${TOTAL} rounds complete. Max possible: ${TOTAL*7} pts.`;
+  const medals=['1st','2nd','3rd','4th'];
+  document.getElementById('flb').innerHTML=sorted.map((p,i)=>`<div class="lbrow ${i===0?'first':i===1?'second':''}"><div class="lbrank">${medals[i]||''}</div><div class="lbname">${p.name}</div><div class="lbpts">${p.score}</div></div>`).join('');
+  const w=sorted[0];const max=TOTAL*6;
+  document.getElementById('wnote').textContent=w.score>=max?`${w.name} got a perfect score. Someone read the guide.`:w.score>=Math.floor(max*.75)?`${w.name} wins. Strong showing from the room.`:`${w.name} takes it. Everyone has notes to tighten — that's the whole point.`;
+}
+
+function resetGame(){
+  clearInterval(S.pi);clearInterval(S.ti);
+  S={screen:'lobby',bid:null,code:null,name:null,host:false,round:0,score:0,sel:[],done:false,ti:null,tl:TSEC,pi:null};
+  ['hname','jname','jcode'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['herr','jerr'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='';});
+  document.getElementById('rcreated').style.display='none';
+  document.getElementById('sbtn').disabled=true;
+  ss('lobby');
+}
+</script>
+</body>
+</html>
