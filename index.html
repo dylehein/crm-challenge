@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM Challenge | Proximo Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#003C56;
+  --ink2:#005578;
+  --ink3:#1a7a9e;
+  --ink-light:#e8f4f8;
+  --ink-pale:#f0f8fb;
+  --paper:#fafaf8;
+  --paper2:#f2f1ee;
+  --paper3:#e8e7e3;
+  --text:#1c1c1a;
+  --text2:#4a4a48;
+  --text3:#8a8a88;
+  --gold:#b8860b;
+  --gold-light:#fdf6e3;
+  --red:#8b2020;
+  --red-light:#fdf0f0;
+  --green:#1a5c3a;
+  --green-light:#edf7f2;
+  --r:6px;
+  --rl:10px;
+}
+html{font-size:16px;}
+body{
+  font-family:'IBM Plex Sans',sans-serif;
+  background:var(--paper);
+  color:var(--text);
+  min-height:100vh;
+}
+
+/* TOPBAR */
+.topbar{
+  background:var(--ink);
+  padding:0 2rem;
+  height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:2px solid var(--ink2);
+}
+.tb-left{display:flex;align-items:center;gap:14px;}
+.tb-logo{display:flex;align-items:center;flex-shrink:0;}
+.tb-wordmark{display:flex;flex-direction:column;gap:0px;line-height:1;}
+.tb-proximo{
+  font-family:'Playfair Display',serif;
+  font-size:13px;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:.12em;
+}
+.tb-capital{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:7.5px;
+  font-weight:400;
+  color:rgba(255,255,255,.45);
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  margin-top:1px;
+}
+.tb-divider{
+  width:1px;
+  height:22px;
+  background:rgba(255,255,255,.15);
+  flex-shrink:0;
+}
+.tb-title{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  font-weight:500;
+  color:rgba(255,255,255,.6);
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.tb-status{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  color:rgba(255,255,255,.3);
+  letter-spacing:.08em;
+}
+
+/* HERO */
+.hero{
+  background:var(--ink);
+  padding:3rem 2rem 2.5rem;
+  position:relative;
+  overflow:hidden;
+}
+.hero-brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:2rem;
+}
+.hero-brand-text{display:flex;flex-direction:column;gap:1px;}
+.hero-brand-proximo{
+  font-family:'Playfair Display',serif;
+  font-size:18px;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:.15em;
+  line-height:1;
+}
+.hero-brand-capital{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:8px;
+  font-weight:400;
+  color:rgba(255,255,255,.4);
+  letter-spacing:.45em;
+  text-transform:uppercase;
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  top:0;right:0;bottom:0;
+  width:40%;
+  background:repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 8px,
+    rgba(255,255,255,.025) 8px,
+    rgba(255,255,255,.025) 9px
+  );
+  pointer-events:none;
+}
+.hero-inner{max-width:680px;margin:0 auto;position:relative;}
+.hero-eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--ink3);
+  margin-bottom:1rem;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.hero-eyebrow::before{
+  content:'';
+  width:24px;
+  height:1px;
+  background:var(--ink3);
+}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(32px,5vw,52px);
+  font-weight:900;
+  color:#fff;
+  line-height:1.05;
+  letter-spacing:-.02em;
+  margin-bottom:1rem;
+}
+.hero h1 em{
+  font-style:italic;
+  color:var(--ink3);
+}
+.hero-sub{
+  font-size:14px;
+  color:rgba(255,255,255,.55);
+  line-height:1.65;
+  max-width:460px;
+}
+.hero-rule{
+  height:1px;
+  background:rgba(255,255,255,.1);
+  margin:2rem 0 1.5rem;
+}
+.hero-meta{
+  display:flex;
+  gap:2rem;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.3);
+}
+.hero-meta span{color:rgba(255,255,255,.7);}
+
+/* WRAP */
+.wrap{max-width:680px;margin:0 auto;padding:2rem 2rem 5rem;}
+
+/* SCREEN */
+.screen{display:none;}.screen.active{display:block;}
+
+/* CARDS */
+.card{
+  background:#fff;
+  border:1px solid var(--paper3);
+  border-radius:var(--rl);
+  padding:1.75rem;
+  margin-bottom:1rem;
+}
+.card-rule{height:1px;background:var(--paper3);margin:1.25rem 0;}
+
+/* LABELS */
+.label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  font-weight:500;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--text3);
+  margin-bottom:10px;
+  display:block;
+}
+
+/* INPUTS */
+input[type=text]{
+  width:100%;
+  padding:11px 14px;
+  font-size:14px;
+  font-family:'IBM Plex Sans',sans-serif;
+  border:1px solid var(--paper3);
+  border-radius:var(--r);
+  background:var(--paper);
+  color:var(--text);
+  outline:none;
+  transition:border-color .15s,background .15s;
+}
+input[type=text]:focus{border-color:var(--ink2);background:#fff;}
+input[type=text]::placeholder{color:var(--text3);}
+
+.codein{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:18px;
+  font-weight:500;
+  letter-spacing:.25em;
+  text-align:center;
+  text-transform:uppercase;
+  width:150px;
+  padding:11px 14px;
+}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:11px 24px;
+  font-size:13px;font-weight:600;
+  font-family:'IBM Plex Sans',sans-serif;
+  border-radius:var(--r);
+  cursor:pointer;transition:all .15s;
+  border:none;white-space:nowrap;letter-spacing:.01em;
+}
+.btnp{background:var(--ink);color:#fff;}
+.btnp:hover{background:var(--ink2);}
+.btnp:disabled{opacity:.35;cursor:not-allowed;}
+.btns{background:var(--paper);color:var(--text2);border:1px solid var(--paper3);}
+.btns:hover{background:var(--paper2);border-color:var(--paper3);}
+
+.row{display:flex;gap:8px;align-items:flex-start;}.row input{flex:1;}
+
+/* DIVIDER */
+.divider{
+  display:flex;align-items:center;gap:12px;
+  margin:1.5rem 0;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--text3);
+}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--paper3);}
+
+/* ROOM CODE */
+.rcode-box{
+  background:var(--ink-pale);
+  border:1px solid var(--ink-light);
+  border-radius:var(--rl);
+  padding:1.5rem;
+  text-align:center;
+  margin:1.25rem 0;
+}
+.rcode{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:48px;
+  font-weight:500;
+  color:var(--ink);
+  letter-spacing:.2em;
+  line-height:1;
+  margin-bottom:6px;
+}
+.rcode-hint{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink3);
+}
+
+/* PILLS */
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.pill{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--paper);
+  border:1px solid var(--paper3);
+  border-radius:4px;
+  padding:5px 12px;
+  font-size:12px;font-weight:500;
+  color:var(--text);
+  font-family:'IBM Plex Sans',sans-serif;
+}
+.pdot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;}
+.phost{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--ink-pale);color:var(--ink2);
+  padding:1px 6px;border-radius:3px;
+}
+
+/* ERR */
+.err{font-size:12px;color:var(--red);min-height:18px;margin-top:5px;}
+.smsg{font-size:11px;color:var(--text3);min-height:16px;margin-top:6px;font-family:'IBM Plex Mono',monospace;letter-spacing:.04em;}
+
+/* GAME HEADER */
+.ghdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.5rem 0 1rem;
+  border-bottom:1px solid var(--paper3);
+  margin-bottom:1.25rem;
+}
+.round-info{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--text3);
+}
+.round-info strong{color:var(--text);font-weight:500;}
+.ptsbadge{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  font-weight:500;
+  color:var(--ink);
+  background:var(--ink-pale);
+  border:1px solid var(--ink-light);
+  padding:5px 14px;
+  border-radius:4px;
+}
+
+/* PROGRESS */
+.progwrap{margin-bottom:1.25rem;}
+.prog-track{
+  height:3px;
+  background:var(--paper3);
+  border-radius:2px;
+  overflow:hidden;
+}
+.prog-fill{
+  height:100%;
+  background:var(--ink);
+  border-radius:2px;
+  transition:width .5s cubic-bezier(.4,0,.2,1);
+}
+.prog-labels{
+  display:flex;justify-content:space-between;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text3);
+  margin-top:5px;
+}
+
+/* LIVE SCORES */
+.sbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem;}
+.schip{
+  display:flex;align-items:center;gap:7px;
+  background:#fff;
+  border:1px solid var(--paper3);
+  border-radius:4px;
+  padding:5px 12px;
+  font-size:12px;
+}
+.schip.lead{background:var(--green-light);border-color:#a8d5be;}
+.sname{font-weight:500;color:var(--text);}
+.spts{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;font-weight:500;
+  color:var(--ink);
+}
+.schip.lead .spts{color:var(--green);}
+
+/* NOTE CARD */
+.ncard{
+  border:1px solid var(--paper3);
+  border-radius:var(--rl);
+  overflow:hidden;
+  margin-bottom:1.5rem;
+}
+.ncard-head{
+  background:var(--paper2);
+  border-bottom:1px solid var(--paper3);
+  padding:10px 1.25rem;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ncard-type{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--text3);
+}
+.ncard-tag{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--red);
+  background:var(--red-light);
+  padding:2px 8px;border-radius:3px;
+}
+.ncard-body{
+  background:#fff;
+  padding:1.25rem;
+  font-size:13.5px;
+  line-height:1.8;
+  color:var(--text);
+  white-space:pre-wrap;
+  font-style:italic;
+  border-left:3px solid var(--ink-light);
+}
+
+/* QUESTION AREA */
+.qlabel{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--text3);
+  margin-bottom:10px;
+  display:flex;align-items:center;gap:10px;
+}
+.qlabel::after{content:'';flex:1;height:1px;background:var(--paper3);}
+
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:1.5rem;}
+@media(max-width:520px){.fgrid{grid-template-columns:1fr;}}
+
+.fopt{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:10px 12px;
+  border:1px solid var(--paper3);
+  border-radius:var(--r);
+  cursor:pointer;background:#fff;
+  transition:all .1s;
+  user-select:none;
+}
+.fopt:hover{border-color:var(--ink-light);background:var(--ink-pale);}
+.fopt.sel{border-color:var(--ink2);background:var(--ink-pale);}
+.fopt.cor{border-color:#a8d5be;background:var(--green-light);}
+.fopt.wrg{border-color:#e8b4b4;background:var(--red-light);}
+
+.fbox{
+  width:16px;height:16px;
+  border:1.5px solid var(--paper3);
+  border-radius:3px;flex-shrink:0;
+  margin-top:2px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .1s;
+  background:#fff;
+}
+.fopt.sel .fbox{background:var(--ink);border-color:var(--ink);}
+.fopt.cor .fbox{background:var(--green);border-color:var(--green);}
+.fopt.wrg .fbox{background:var(--red);border-color:var(--red);}
+.ftick{display:none;}
+.fopt.sel .ftick,.fopt.cor .ftick,.fopt.wrg .ftick{display:block;}
+.ftext{font-size:12.5px;line-height:1.45;color:var(--text);}
+
+/* REWRITE */
+.rwsec{margin-bottom:1.5rem;}
+textarea{
+  width:100%;min-height:85px;
+  padding:10px 14px;
+  font-size:13px;font-family:'IBM Plex Sans',sans-serif;
+  border:1px solid var(--paper3);
+  border-radius:var(--r);
+  background:var(--paper);color:var(--text);
+  resize:vertical;line-height:1.65;outline:none;
+  transition:border-color .15s,background .15s;
+}
+textarea:focus{border-color:var(--ink2);background:#fff;}
+.rwhint{font-size:11px;color:var(--text3);margin-top:5px;font-style:italic;}
+
+/* SUBMIT ROW */
+.subrow{display:flex;align-items:center;gap:14px;}
+.timer{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:24px;font-weight:500;
+  min-width:42px;color:var(--text2);
+  transition:color .3s;
+}
+.timer.urg{color:var(--red);}
+
+/* RESULT BANNER */
+.rbanner{
+  border-radius:var(--rl);
+  padding:1.25rem 1.5rem;
+  margin-bottom:1.5rem;
+  display:flex;align-items:flex-start;gap:14px;
+  border-left:4px solid;
+}
+.rbanner.cor{background:var(--green-light);border-color:var(--green);}
+.rbanner.par{background:var(--gold-light);border-color:var(--gold);}
+.rbanner.wrg{background:var(--red-light);border-color:var(--red);}
+.rbicon{font-size:20px;flex-shrink:0;line-height:1.4;}
+.rbtitle{
+  font-family:'Playfair Display',serif;
+  font-size:17px;font-weight:700;
+  margin-bottom:3px;
+}
+.rbanner.cor .rbtitle{color:var(--green);}
+.rbanner.par .rbtitle{color:var(--gold);}
+.rbanner.wrg .rbtitle{color:var(--red);}
+.rbbody{font-size:13px;line-height:1.55;}
+.rbanner.cor .rbbody{color:#2d6b4a;}
+.rbanner.par .rbbody{color:#7a5c00;}
+.rbanner.wrg .rbbody{color:#7a2020;}
+
+/* FAILURE EXPLANATIONS */
+.felist{margin-bottom:1.5rem;}
+.feitem{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:10px 0;
+  border-bottom:1px solid var(--paper3);
+}
+.feitem:last-child{border-bottom:none;}
+.fetag{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 8px;border-radius:3px;
+  white-space:nowrap;flex-shrink:0;margin-top:2px;
+}
+.fetag.caught{background:var(--green-light);color:var(--green);}
+.fetag.missed{background:var(--gold-light);color:var(--gold);}
+.fetext{font-size:12.5px;color:var(--text2);line-height:1.6;}
+
+/* MODEL ANSWER */
+.mcard{
+  border:1px solid var(--paper3);
+  border-radius:var(--rl);
+  overflow:hidden;
+  margin-bottom:1.5rem;
+}
+.mhead{
+  background:var(--ink);
+  padding:9px 1.25rem;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.6);
+  display:flex;align-items:center;gap:8px;
+}
+.mhead::before{content:'//';color:rgba(255,255,255,.25);}
+.mbody{
+  padding:1.25rem;
+  font-size:12.5px;line-height:1.8;
+  color:var(--text);white-space:pre-wrap;
+  background:#fff;
+  border-left:3px solid var(--ink-light);
+}
+
+/* WAITING */
+.wc{text-align:center;padding:3.5rem 1rem;}
+.wc h2{
+  font-family:'Playfair Display',serif;
+  font-size:26px;font-weight:700;
+  margin-bottom:8px;
+  color:var(--text);
+}
+.wc p{font-size:14px;color:var(--text2);margin-bottom:1.5rem;line-height:1.6;}
+.pulse{
+  display:inline-block;
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--green);
+  margin-right:6px;
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.8);}}
+
+/* LEADERBOARD */
+.lbhero{padding:2rem 0 1.5rem;}
+.lbhero h2{
+  font-family:'Playfair Display',serif;
+  font-size:32px;font-weight:900;
+  color:var(--text);
+  margin-bottom:4px;
+  letter-spacing:-.02em;
+}
+.lbhero p{font-size:13px;color:var(--text3);font-family:'IBM Plex Mono',monospace;letter-spacing:.04em;}
+
+.lbrow{
+  display:flex;align-items:center;gap:16px;
+  padding:14px 1.25rem;
+  border-radius:var(--rl);
+  margin-bottom:8px;
+  border:1px solid var(--paper3);
+  background:#fff;
+  transition:transform .2s;
+}
+.lbrow.first{
+  background:var(--ink);
+  border-color:var(--ink);
+}
+.lbrow:hover{transform:translateX(3px);}
+.lbrank{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  width:36px;color:var(--text3);
+}
+.lbrow.first .lbrank{color:rgba(255,255,255,.5);}
+.lbname{flex:1;font-size:15px;font-weight:600;color:var(--text);}
+.lbrow.first .lbname{color:#fff;}
+.lbpts{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:20px;font-weight:500;color:var(--ink);
+}
+.lbrow.first .lbpts{color:rgba(255,255,255,.9);}
+.lbwn{
+  text-align:center;
+  font-size:13px;color:var(--text3);
+  margin-top:1.25rem;font-style:italic;
+  font-family:'Playfair Display',serif;
+}
+.lbrp{text-align:center;margin-top:2rem;}
+
+/* NEXT ROW */
+.nxrow{display:flex;justify-content:flex-end;margin-top:1.25rem;gap:10px;align-items:center;}
+.nxhint{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--text3);}
+
+/* START ROW */
+.srow{text-align:center;margin-top:1.25rem;}
+.shint{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--text3);
+  text-align:center;margin-top:8px;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-left">
+    <div class="tb-logo">
+      <!-- Proximo Capital compass rose SVG logo -->
+      <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer circle -->
+        <circle cx="50" cy="50" r="44" stroke="#6a7fa8" stroke-width="3.5" fill="none"/>
+        <!-- Grey diagonal points (NW-SE axis) -->
+        <polygon points="50,8 56,50 50,92 44,50" fill="#8a9bb8" opacity="0.85"/>
+        <!-- Navy main points (N-S axis) -->
+        <polygon points="50,4 54,50 50,96 46,50" fill="#1e3a6e"/>
+        <!-- Grey diagonal points (NE-SW axis) -->
+        <polygon points="92,50 50,56 8,50 50,44" fill="#8a9bb8" opacity="0.85"/>
+        <!-- Navy main points (E-W axis) -->
+        <polygon points="96,50 50,54 4,50 50,46" fill="#1e3a6e"/>
+        <!-- Small tick marks -->
+        <line x1="50" y1="10" x2="50" y2="18" stroke="#8a9bb8" stroke-width="2" transform="rotate(45 50 50)"/>
+        <line x1="50" y1="10" x2="50" y2="18" stroke="#8a9bb8" stroke-width="2" transform="rotate(135 50 50)"/>
+        <!-- Center circle -->
+        <circle cx="50" cy="50" r="6" fill="#1e3a6e" stroke="#8a9bb8" stroke-width="1.5"/>
+        <circle cx="50" cy="50" r="3" fill="#1e3a6e"/>
+      </svg>
+    </div>
+    <div class="tb-wordmark">
+      <span class="tb-proximo">PROXIMO</span>
+      <span class="tb-capital">CAPITAL</span>
+    </div>
+    <div class="tb-divider"></div>
+    <div class="tb-title">CRM Challenge</div>
+  </div>
+  <div class="tb-status">Training Module v1.0</div>
+</div>
+
+<!-- LOBBY -->
+<div id="s-lobby" class="screen active">
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-brand">
+        <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,0.25)" stroke-width="3.5" fill="none"/>
+          <polygon points="50,8 56,50 50,92 44,50" fill="rgba(255,255,255,0.35)"/>
+          <polygon points="50,4 54,50 50,96 46,50" fill="rgba(255,255,255,0.85)"/>
+          <polygon points="92,50 50,56 8,50 50,44" fill="rgba(255,255,255,0.35)"/>
+          <polygon points="96,50 50,54 4,50 50,46" fill="rgba(255,255,255,0.85)"/>
+          <line x1="50" y1="10" x2="50" y2="18" stroke="rgba(255,255,255,0.3)" stroke-width="2" transform="rotate(45 50 50)"/>
+          <line x1="50" y1="10" x2="50" y2="18" stroke="rgba(255,255,255,0.3)" stroke-width="2" transform="rotate(135 50 50)"/>
+          <circle cx="50" cy="50" r="6" fill="rgba(255,255,255,0.9)" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+          <circle cx="50" cy="50" r="3" fill="var(--ink)"/>
+        </svg>
+        <div class="hero-brand-text">
+          <div class="hero-brand-proximo">PROXIMO</div>
+          <div class="hero-brand-capital">CAPITAL</div>
+        </div>
+      </div>
+      <div class="hero-eyebrow">Internal Training</div>
+      <h1>Spot the<br><em>Flaw.</em></h1>
+      <p class="hero-sub">Five real notes from your pipeline. You identify the failures. First to catch them all wins. No one gets a pass for "had a good call."</p>
+      <div class="hero-rule"></div>
+      <div class="hero-meta">
+        <div>Rounds <span>05</span></div>
+        <div>Max players <span>04</span></div>
+        <div>Format <span>Competitive</span></div>
+        <div>Source <span>Live HubSpot data</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <span class="label">Host — Create a room</span>
+      <div class="row">
+        <input type="text" id="hname" placeholder="Your name" maxlength="20"/>
+        <button class="btn btnp" onclick="createRoom()">Create Room</button>
+      </div>
+      <div id="herr" class="err"></div>
+      <div id="rcreated" style="display:none">
+        <div class="card-rule"></div>
+        <div class="rcode-box">
+          <div class="rcode" id="rcode">----</div>
+          <div class="rcode-hint">Share this code with players</div>
+        </div>
+        <span class="label">Players in room</span>
+        <div class="pills" id="hpills"></div>
+        <div class="shint" id="shint"></div>
+        <div class="srow"><button class="btn btnp" id="sbtn" onclick="startGame()" disabled>Start Game</button></div>
+      </div>
+    </div>
+
+    <div class="divider">or join an existing room</div>
+
+    <div class="card">
+      <span class="label">Join a room</span>
+      <div class="row" style="margin-bottom:8px">
+        <input type="text" id="jname" placeholder="Your name" maxlength="20"/>
+      </div>
+      <div class="row">
+        <input type="text" class="codein" id="jcode" placeholder="CODE" maxlength="4"/>
+        <button class="btn btnp" onclick="joinRoom()">Join Room</button>
+      </div>
+      <div id="jerr" class="err"></div>
+    </div>
+  </div>
+</div>
+
+<!-- WAITING -->
+<div id="s-waiting" class="screen">
+  <div class="wrap">
+    <div class="wc">
+      <h2>You're in the room.</h2>
+      <p><span class="pulse"></span>Waiting for the host to start the game...</p>
+      <span class="label">Players joined</span>
+      <div class="pills" id="wpills"></div>
+      <div class="smsg" id="wmsg" style="margin-top:10px;text-align:center;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- GAME -->
+<div id="s-game" class="screen">
+  <div class="wrap">
+    <div class="ghdr">
+      <div class="round-info">Round <strong id="rlbl-num">1</strong> of 5</div>
+      <div class="ptsbadge" id="mpts">0 pts</div>
+    </div>
+
+    <div class="progwrap">
+      <div class="prog-track"><div class="prog-fill" id="pgf" style="width:0%"></div></div>
+      <div class="prog-labels"><span id="prog-left">Start</span><span id="prog-right">Finish</span></div>
+    </div>
+
+    <div class="sbar" id="lsbar"></div>
+
+    <div class="ncard">
+      <div class="ncard-head">
+        <span class="ncard-type" id="ntype">Call Note</span>
+        <span class="ncard-tag">Needs Review</span>
+      </div>
+      <div class="ncard-body" id="nbody"></div>
+    </div>
+
+    <div class="qlabel">Identify all failures</div>
+    <div class="fgrid" id="fopts"></div>
+
+    <div class="rwsec">
+      <div class="qlabel">Write the one-sentence fix <span style="font-size:9px;color:var(--text3);letter-spacing:.05em;font-family:'IBM Plex Sans',sans-serif;font-style:italic;">optional, +1 pt</span></div>
+      <textarea id="rwin" placeholder="Write what the corrected version should say..."></textarea>
+      <div class="rwhint">Doesn't need to be perfect. Show you know the standard.</div>
+    </div>
+
+    <div class="subrow">
+      <div class="timer" id="tmr">90</div>
+      <button class="btn btnp" id="subbtn" onclick="submitAnswer()">Submit Answer</button>
+      <div class="smsg" id="subst"></div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="s-result" class="screen">
+  <div class="wrap">
+    <div class="ghdr">
+      <div class="round-info">Round <strong id="rrlbl-num">1</strong> of 5 — Results</div>
+      <div class="ptsbadge" id="rpts">+0 pts</div>
+    </div>
+    <div id="rbanner"></div>
+    <div class="felist" id="felist"></div>
+    <div class="mcard">
+      <div class="mhead">Model Answer</div>
+      <div class="mbody" id="mbody"></div>
+    </div>
+    <div class="sbar" id="rsbar"></div>
+    <div class="nxrow">
+      <span class="nxhint" id="rst">Waiting for host...</span>
+      <button class="btn btnp" id="nxbtn" onclick="nextRound()" style="display:none">Next Round</button>
+    </div>
+  </div>
+</div>
+
+<!-- END -->
+<div id="s-end" class="screen">
+  <div class="wrap">
+    <div class="lbhero">
+      <h2>Final Standings.</h2>
+      <p id="esub"></p>
+    </div>
+    <div id="flb"></div>
+    <div class="lbwn" id="wnote"></div>
+    <div class="lbrp"><button class="btn btns" onclick="resetGame()">Play Again</button></div>
+  </div>
+</div>
+
+<script>
+const API='https://api.jsonbin.io/v3/b';
+const KEY='$2a$10$PW0SBH3pDa0dPgoWhMbbUuq0HA2S0gpsUsHfdgZlsszKmI3ye2zmC';
+const H={'Content-Type':'application/json','X-Master-Key':KEY,'X-Bin-Private':'false'};
+
+const RDS=[
+  {type:"Call Note",note:`Per James, he's been back and forth with Dave Givey to see if this is real.`,
+  failures:[{id:"ghost",label:"Ghost Note — no structure or substance"},{id:"nodate",label:"No date or timestamp"},{id:"nopart",label:"No participant names or titles"},{id:"nodeal",label:"No deal context or so-what"},{id:"nonext",label:"No next step or owner"},{id:"hedged",label:"Hedged flag — deal health not assessed"}],
+  correct:["ghost","nodate","nopart","nodeal","nonext","hedged"],
+  fn:{ghost:"One vague sentence with no structure — no usable information for a pipeline review or handoff.",nodate:"No date means the activity timeline is broken. Was this today? Last week? The CRM can't flag untouched deal violations without it.",nopart:"We know 'James' and 'Dave Givey' but no titles, no company for Dave, no role context. Relationship mapping is impossible.",nodeal:"What deal is this? What stage? Zero context for anyone reading cold.",nonext:"No next step, no owner, no deadline. No escalation path if Dave doesn't respond.",hedged:"'To see if this is real' is a Deal Health Flag waiting to be written — buried in a passive sentence with no consequence."},
+  model:`Date: Thursday, April 09 2026 — 2:00 PM ET\nParticipants: [Rep Name] (Proximo Capital); James [Last Name], [Title]\nSummary: Internal update. Deal viability unconfirmed after multiple touchpoints with Dave Givey. Flagged to rep for definitive confirmation before end of week.\n\nKey Discussion Points:\n- Multiple exchanges with Dave Givey to confirm whether this opportunity is live\n- No commitment received; deal reality and timeline unconfirmed\n\nCommitments Made:\nRep: Obtain clear yes/no from Dave Givey — Due: Mon Apr 13\n\nNext Steps:\n1. James: Confirm deal status with Dave Givey — Due: Mon Apr 13\n2. If no response by Apr 13, move to Disengaging\n\nDeal Health Flag: Viability unconfirmed after multiple attempts. If client cannot confirm by Apr 13, recommend disengaging.`},
+  {type:"Task",note:`Title: "Text client for LOI's"\nBody: Need more info from client.\nDue: Oct 5, 2026\nType: To-Do\nAssociated contact/company: [none]`,
+  failures:[{id:"noco",label:"No company name in the title"},{id:"vague",label:"Vague action — doesn't say what for"},{id:"nofmt",label:"Title doesn't follow [Company / Action / MM/DD] format"},{id:"noasc",label:"Not associated with a deal or contact"},{id:"tbody",label:"Task body adds no useful context"},{id:"wtype",label:"Task type is To-Do but action is a call/text"}],
+  correct:["noco","vague","nofmt","noasc","tbody","wtype"],
+  fn:{noco:"Without a company name, this task is invisible in a filtered task list or pipeline review. Company first, always.",vague:"'Text client' tells you nothing about what to ask or what outcome you're driving toward.",nofmt:"Correct format: [Company] — [verb + specific thing] — MM/DD. This task has none of those three components.",noasc:"A task with no associated deal or contact is an orphan — won't appear on the deal record and can't be tracked in pipeline health.",tbody:"'Need more info from client' restates the obvious. A good task body says what to ask, what to do if there's no response, and who to escalate to.",wtype:"The type drives how it appears in task views and activity logs. Setting it as To-Do when the action is a call/text creates a gap in the communication log."},
+  model:`Title: [Company Name] — Follow up on outstanding LOIs — 10/05\nType: Call\nDue: 10/05/2026\nAssociated: [Deal record] + [Contact: client name]\nBody: Client has not yet returned signed LOIs. Confirm receipt and get ETA. If not received by 10/07, escalate to [Manager Name] and flag in deal Stuck Detail.`},
+  {type:"Call Note",note:`4/8\n- ROK - requested last 4 month bank statements\n- Fora - requested YTD financials\n- have call with Ken later today`,
+  failures:[{id:"ghost",label:"Ghost Note — no structure or context"},{id:"nopart",label:"No participant names or titles"},{id:"nodeal",label:"Multiple deals mixed into one note"},{id:"nosw",label:"No so-what for either deal"},{id:"nonext",label:"No next steps with owners and due dates"},{id:"nocmt",label:"No client commitments or delivery dates logged"}],
+  correct:["ghost","nopart","nodeal","nosw","nonext","nocmt"],
+  fn:{ghost:"Three bullets with no summary, no date context, no participants. Reads like a sticky note left on someone's desk.",nopart:"Who is Ken? Who owns ROK and Fora? No titles, no companies, no relationship context.",nodeal:"ROK and Fora are two separate deals. Mixing them means neither deal record gets complete activity history. Log separately.",nosw:"Requesting documents is an action — but why? What stage does receiving these move each deal to?",nonext:"There's a call with Ken 'later today' but no task created, no owner named, no outcome expected.",nocmt:"You requested documents but logged no client commitment with a deadline. Without a date, there's no basis for a follow-up task."},
+  model:`[Split into two separate deal notes. Example for ROK:]\n\nDate: Wednesday, April 08 2026 — [time] ET\nParticipants: [Rep Name] (Proximo Capital); [ROK contact name, title]\nSummary: Follow-up touchpoint to gather outstanding diligence materials. Rep requested last 4 months of bank statements. Client to provide by [agreed date].\n\nCommitments Made:\nClient: Deliver last 4 months bank statements — Due: [agreed date]\n\nNext Steps:\n1. Rep: Follow up if statements not received — Due: [date + 2 business days]`},
+  {type:"Stuck Detail",note:`Followed up with Shah for materials - he said he hasn't heard from Lyn either. Closing this file (until we hear back from client and get financials)`,
+  failures:[{id:"vague",label:"Vague — who are Shah and Lyn? What materials?"},{id:"nodate",label:"No date updated on the entry"},{id:"noublk",label:"No specific list of what is needed to unblock"},{id:"norev",label:"No review date — 'until we hear back' is not a date"},{id:"notsk",label:"No corresponding task created in HubSpot"},{id:"noesc",label:"No escalation path if client stays dark"}],
+  correct:["vague","nodate","noublk","norev","notsk","noesc"],
+  fn:{vague:"Shah and Lyn appear without titles, companies, or roles. What 'materials'? A Stuck Detail must be readable by someone who doesn't know the deal.",nodate:"No date means there's no way to tell if this was written yesterday or three weeks ago. A stale entry creates false confidence in pipeline reviews.",noublk:"Requires a discrete list of specific items — yes/no answerable. 'Materials and financials' is not specific enough.",norev:"'Until we hear back' is not a review date. The Stuck Detail spec requires a hard date, even if nothing has changed.",notsk:"A Stuck Detail without a follow-up task is unenforceable. The review date must correspond to an open task in HubSpot.",noesc:"What happens if they stay dark? The note doesn't say. Every Stuck Detail needs a stated consequence for non-response."},
+  model:`Date Updated: April 09, 2026\nReason Stuck: Both internal contact Shah [Last Name, Title] and client contact Lyn [Last Name] have gone unresponsive. Outstanding materials: [specific items, e.g. Q1 financials, updated project schedule]. Last outreach to Lyn: [date].\n\nWhat Is Needed to Unblock:\n- Client financials from Lyn [Last Name]\n- Confirmation from client that deal is still active\n\nReview Date: April 16, 2026 — If no response by this date, move deal to Disengaging and notify [Manager Name].`},
+  {type:"Call Note",note:`Got times that work for Jen for a call with JJ. Asked JJ what times would work for him for next week. Can't do the 14th per Jen\n\nCall scheduled for 4/13`,
+  failures:[{id:"ghost",label:"Ghost Note — no deal context whatsoever"},{id:"nopart",label:"No full names, titles, or companies"},{id:"nodate",label:"No date or timestamp on the note itself"},{id:"nodeal",label:"No mention of what deal this relates to"},{id:"nonext",label:"Call on 4/13 not logged as a task with an owner"},{id:"nosw",label:"No so-what — why is this call happening?"}],
+  correct:["ghost","nopart","nodate","nodeal","nonext","nosw"],
+  fn:{ghost:"Reads like a text message thread, not a CRM note. No context, no structure, no deal reference.",nopart:"Jen and JJ have no last names, no titles, no company. Unworkable for any handoff or relationship mapping.",nodate:"When was this written? The note has no timestamp, so the activity timeline is broken.",nodeal:"Which deal is this scheduling note for? A note without a deal reference is invisible in pipeline reviews.",nonext:"The call on 4/13 should be a task — with an owner, a type (Call), associated to the deal and both contacts. A note alone does not create accountability.",nosw:"What is the call on 4/13 for? What does it mean if it goes well? Why are Jen and JJ talking? None of this is captured."},
+  model:`Date: Wednesday, April 09 2026 — [time] ET\nParticipants: [Rep Name] (Proximo Capital)\nSummary: Scheduling coordination for intro call between [Jen Last Name, Title, Company] and [JJ Last Name, Title, Company]. Call confirmed for April 13.\n\nKey Discussion Points:\n- Aligned on April 13; April 14 unavailable per Jen\n- Purpose of call: [state the deal reason — e.g. initial capability discussion, deal intro, lender meeting]\n\nNext Steps:\n1. Rep: Send calendar invite to Jen and JJ — Due: today\n2. Rep: Log call outcome note — Due: April 13\n\n[Task created: [Company] — Intro call with Jen and JJ — 04/13]`}
+];
+
+const TOTAL=RDS.length,TSEC=90;
+let S={screen:'lobby',bid:null,code:null,name:null,host:false,round:0,score:0,sel:[],done:false,ti:null,tl:TSEC,pi:null};
+
+async function mkbin(d){const r=await fetch(API,{method:'POST',headers:{...H,'X-Bin-Name':'room-'+d.code},body:JSON.stringify(d)});const j=await r.json();return j.metadata.id;}
+async function rdbin(id){const r=await fetch(`${API}/${id}/latest`,{headers:{'X-Master-Key':KEY}});const j=await r.json();return j.record;}
+async function upbin(id,d){await fetch(`${API}/${id}`,{method:'PUT',headers:H,body:JSON.stringify(d)});}
+async function findbin(code){try{const r=await fetch(`https://api.jsonbin.io/v3/b?meta=false`,{headers:{'X-Master-Key':KEY}});const j=await r.json();if(!Array.isArray(j))return null;const m=j.find(b=>b.snippetMeta&&b.snippetMeta.name==='room-'+code);return m?m.snippetMeta.id:null;}catch(e){return null;}}
+
+function ss(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('s-'+id).classList.add('active');S.screen=id;}
+function gc(){return Math.random().toString(36).substr(2,4).toUpperCase();}
+function pills(ps,id){const c=document.getElementById(id);if(!c)return;c.innerHTML=ps.map((p,i)=>`<span class="pill"><span class="pdot"></span>${p.name}${i===0?'<span class="phost">Host</span>':''}</span>`).join('');}
+
+async function createRoom(){
+  const n=document.getElementById('hname').value.trim();
+  if(!n){document.getElementById('herr').textContent='Enter your name first.';return;}
+  document.getElementById('herr').textContent='Setting up room...';
+  const code=gc();
+  const ses={code,host:n,players:[{name:n,score:0}],started:false,currentRound:0,finished:false};
+  try{
+    const bid=await mkbin(ses);
+    S.bid=bid;S.code=code;S.name=n;S.host=true;
+    document.getElementById('herr').textContent='';
+    document.getElementById('rcode').textContent=code;
+    document.getElementById('rcreated').style.display='block';
+    pills(ses.players,'hpills');
+    document.getElementById('sbtn').disabled=false;
+    document.getElementById('shint').textContent='Playing solo — or share the code for others to join';
+    S.pi=setInterval(async()=>{
+      const s=await rdbin(S.bid);if(!s)return;
+      pills(s.players,'hpills');
+      document.getElementById('shint').textContent=s.players.length===1?'Playing solo — or share the code for others to join':`${s.players.length} players in room — ready to start`;
+      if(s.started&&S.screen!=='game'){clearInterval(S.pi);beginGame(s);}
+    },2500);
+  }catch(e){document.getElementById('herr').textContent='Connection error. Try again.';}
+}
+
+async function joinRoom(){
+  const n=document.getElementById('jname').value.trim();
+  const code=document.getElementById('jcode').value.trim().toUpperCase();
+  if(!n){document.getElementById('jerr').textContent='Enter your name.';return;}
+  if(code.length!==4){document.getElementById('jerr').textContent='Enter a 4-letter room code.';return;}
+  document.getElementById('jerr').textContent='Finding room...';
+  try{
+    const bid=await findbin(code);
+    if(!bid){document.getElementById('jerr').textContent='Room not found. Check the code.';return;}
+    const s=await rdbin(bid);
+    if(!s){document.getElementById('jerr').textContent='Room not found.';return;}
+    if(s.started){document.getElementById('jerr').textContent='Game already started.';return;}
+    if(s.players.length>=4){document.getElementById('jerr').textContent='Room is full (4 players max).';return;}
+    document.getElementById('jerr').textContent='';
+    S.bid=bid;S.code=code;S.name=n;S.host=false;
+    if(!s.players.find(p=>p.name===n)){s.players.push({name:n,score:0});await upbin(bid,s);}
+    ss('waiting');pills(s.players,'wpills');
+    S.pi=setInterval(async()=>{
+      const s=await rdbin(S.bid);if(!s)return;
+      pills(s.players,'wpills');
+      document.getElementById('wmsg').textContent=`${s.players.length} player${s.players.length>1?'s':''} in room`;
+      if(s.started&&S.screen!=='game'){clearInterval(S.pi);beginGame(s);}
+      if(s.finished){clearInterval(S.pi);showEnd(s);}
+    },2500);
+  }catch(e){document.getElementById('jerr').textContent='Connection error. Try again.';}
+}
+
+async function startGame(){
+  const s=await rdbin(S.bid);if(!s)return;
+  s.started=true;s.currentRound=0;
+  await upbin(S.bid,s);clearInterval(S.pi);beginGame(s);
+}
+
+function beginGame(ses){S.round=ses.currentRound||0;ss('game');renderRound(S.round);startPoll();}
+
+function startPoll(){
+  S.pi=setInterval(async()=>{
+    const s=await rdbin(S.bid);if(!s)return;
+    renderScores(s.players,'lsbar');
+    if(s.currentRound!==S.round&&!S.host){clearInterval(S.pi);S.round=s.currentRound;if(s.finished){showEnd(s);return;}ss('game');renderRound(S.round);startPoll();}
+    if(s.finished){clearInterval(S.pi);showEnd(s);}
+  },2500);
+}
+
+function renderRound(idx){
+  const r=RDS[idx];
+  S.sel=[];S.done=false;S.tl=TSEC;clearInterval(S.ti);
+  document.getElementById('rlbl-num').textContent=idx+1;
+  document.getElementById('pgf').style.width=`${(idx/TOTAL)*100}%`;
+  document.getElementById('prog-left').textContent=`Round ${idx+1}`;
+  document.getElementById('prog-right').textContent=`${TOTAL-idx-1} remaining`;
+  document.getElementById('ntype').textContent=r.type;
+  document.getElementById('nbody').textContent=r.note;
+  document.getElementById('rwin').value='';
+  document.getElementById('subst').textContent='';
+  document.getElementById('subbtn').disabled=false;
+  document.getElementById('mpts').textContent=S.score+' pts';
+  document.getElementById('fopts').innerHTML=r.failures.map(f=>`
+    <div class="fopt" id="fo-${f.id}" onclick="tf('${f.id}')">
+      <div class="fbox">
+        <svg class="ftick" width="9" height="7" viewBox="0 0 9 7" fill="none">
+          <path d="M1 3.5L3 5.5L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="ftext">${f.label}</div>
+    </div>`).join('');
+  const td=document.getElementById('tmr');td.textContent=TSEC;td.classList.remove('urg');
+  S.ti=setInterval(()=>{
+    S.tl--;
+    if(td){td.textContent=S.tl;if(S.tl<=15)td.classList.add('urg');}
+    if(S.tl<=0){clearInterval(S.ti);if(!S.done)submitAnswer();}
+  },1000);
+}
+
+function tf(id){
+  if(S.done)return;
+  const el=document.getElementById('fo-'+id);
+  const i=S.sel.indexOf(id);
+  if(i===-1){S.sel.push(id);el.classList.add('sel');}
+  else{S.sel.splice(i,1);el.classList.remove('sel');}
+}
+
+async function submitAnswer(){
+  if(S.done)return;S.done=true;clearInterval(S.ti);
+  document.getElementById('subbtn').disabled=true;
+  document.getElementById('subst').textContent='saving...';
+  const r=RDS[S.round];const correct=r.correct;const sel=S.sel;
+  const tp=sel.filter(id=>correct.includes(id)).length;
+  const fp=sel.filter(id=>!correct.includes(id)).length;
+  let pts=Math.max(0,tp-fp);
+  const rw=document.getElementById('rwin').value.trim();
+  if(rw.length>20)pts+=1;
+  S.score+=pts;
+  try{const s=await rdbin(S.bid);if(s){const p=s.players.find(pl=>pl.name===S.name);if(p)p.score=S.score;await upbin(S.bid,s);}}catch(e){}
+  document.getElementById('subst').textContent='';
+  showResult(r,sel,correct,pts,tp,rw);
+}
+
+function showResult(r,sel,correct,pts,tp,rw){
+  clearInterval(S.pi);ss('result');
+  document.getElementById('rrlbl-num').textContent=S.round+1;
+  document.getElementById('rpts').textContent=`+${pts} pt${pts===1?'':'s'}`;
+  const missed=correct.filter(id=>!sel.includes(id)).length;
+  const fp=sel.filter(id=>!correct.includes(id)).length;
+  let cls,icon,title,body;
+  if(tp===correct.length&&fp===0){cls='cor';icon='';title='Clean sweep.';body=`All ${correct.length} failures identified.${rw.length>20?' Bonus point for the rewrite.':''}`;}
+  else if(tp>=Math.ceil(correct.length*.6)){cls='par';icon='';title='Good eye.';body=`${tp} of ${correct.length} failures caught.${missed>0?` Missed ${missed}.`:''}`;}
+  else{cls='wrg';icon='';title='Back to the playbook.';body=`${tp} of ${correct.length} caught. Study the explanations below.`;}
+  document.getElementById('rbanner').innerHTML=`<div class="rbanner ${cls}"><div class="rbicon">${icon}</div><div><div class="rbtitle">${title}</div><div class="rbbody">${body}</div></div></div>`;
+  document.getElementById('felist').innerHTML=correct.map(id=>{
+    const f=r.failures.find(x=>x.id===id);const hit=sel.includes(id);
+    return `<div class="feitem"><span class="fetag ${hit?'caught':'missed'}">${hit?'Caught':'Missed'}</span><span class="fetext"><strong style="font-weight:600;">${f.label.split(' — ')[0]}:</strong> ${r.fn[id]}</span></div>`;
+  }).join('');
+  document.getElementById('mbody').textContent=r.model;
+  const nb=document.getElementById('nxbtn');const rs=document.getElementById('rst');
+  if(S.host){nb.style.display='inline-flex';nb.textContent=S.round+1>=TOTAL?'See Final Results':'Next Round';rs.textContent='';}
+  else{nb.style.display='none';rs.textContent='Waiting for host to advance...';}
+  rdbin(S.bid).then(s=>{if(s)renderScores(s.players,'rsbar');});
+  if(!S.host){S.pi=setInterval(async()=>{const s=await rdbin(S.bid);if(!s)return;renderScores(s.players,'rsbar');if(s.finished){clearInterval(S.pi);showEnd(s);return;}if(s.currentRound>S.round){clearInterval(S.pi);S.round=s.currentRound;ss('game');renderRound(S.round);startPoll();}},2500);}
+}
+
+async function nextRound(){
+  if(!S.host)return;const s=await rdbin(S.bid);if(!s)return;
+  const nx=S.round+1;
+  if(nx>=TOTAL){s.finished=true;await upbin(S.bid,s);showEnd(s);}
+  else{s.currentRound=nx;await upbin(S.bid,s);S.round=nx;clearInterval(S.pi);ss('game');renderRound(S.round);startPoll();}
+}
+
+function renderScores(ps,cid){
+  const el=document.getElementById(cid);if(!el)return;
+  const sorted=[...ps].sort((a,b)=>b.score-a.score);
+  el.innerHTML=sorted.map((p,i)=>`<div class="schip${i===0&&p.score>0?' lead':''}"><span class="sname">${p.name}</span><span class="spts">${p.score} pts</span></div>`).join('');
+}
+
+function showEnd(ses){
+  ss('end');const sorted=[...ses.players].sort((a,b)=>b.score-a.score);
+  document.getElementById('esub').textContent=`${TOTAL} rounds / ${TOTAL*7} pts possible`;
+  const medals=['1st','2nd','3rd','4th'];
+  document.getElementById('flb').innerHTML=sorted.map((p,i)=>`
+    <div class="lbrow ${i===0?'first':''}">
+      <div class="lbrank">${medals[i]||''}</div>
+      <div class="lbname">${p.name}</div>
+      <div class="lbpts">${p.score}</div>
+    </div>`).join('');
+  const w=sorted[0];const max=TOTAL*6;
+  const note=w.score>=max?`${w.name} got a perfect score. Someone read the guide.`:w.score>=Math.floor(max*.75)?`${w.name} wins. Strong showing.`:`${w.name} takes it. Everyone has notes to tighten — that's the whole point.`;
+  document.getElementById('wnote').textContent=note;
+}
+
+function resetGame(){
+  clearInterval(S.pi);clearInterval(S.ti);
+  S={screen:'lobby',bid:null,code:null,name:null,host:false,round:0,score:0,sel:[],done:false,ti:null,tl:TSEC,pi:null};
+  ['hname','jname','jcode'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['herr','jerr'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='';});
+  document.getElementById('rcreated').style.display='none';
+  document.getElementById('sbtn').disabled=true;
+  ss('lobby');
+}
+</script>
+</body>
+</html>
